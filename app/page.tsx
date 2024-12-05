@@ -1,17 +1,12 @@
-'use client'
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+
+import Header from "../components/Header"
+import Focal from "../components/Focal"
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push("/pages/homepage");
-  }, [router]);
-
+ 
   return (
     <>
-      <h1>Hello</h1>
+   <Focal></Focal>
     </>
   );
 }
