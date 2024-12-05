@@ -12,12 +12,17 @@ html ,body{
 } 
 
 
-.band{
-    display: flex;
-flex-direction: row;
-    background-color: #66A6FA;
-    margin-right: auto;
-    margin-left: auto;
+html , body , .slider-container{
+    overflow-x: scroll;
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+
+  .line{
+    height: 2px;
     width: 80%;
-   
-}
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+  }
+ 

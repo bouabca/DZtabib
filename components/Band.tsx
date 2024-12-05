@@ -5,7 +5,7 @@ import Card from "./Card"
 
 function Band() {
   return (
-<div className="flex flex-wrap bg-[#66A6FA] mx-auto w-[88%] py-8 rounded-[15px] justify-center gap-4">
+<div className="flex flex-wrap bg-[#66A6FA] mx-auto w-[100%] md:w-[88%] py-8 md:rounded-[15px] justify-center gap-4">
   <Card />
   <Card />
   <Card />
