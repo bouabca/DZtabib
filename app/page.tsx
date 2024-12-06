@@ -1,12 +1,12 @@
 import React from 'react';
-import Focal from "../components/Focal";
-import Focal1 from "../components/Focal1";
-import Band from "../components/Band";
-import Title from "../components/Title";
-import Special from "../components/Special";
-import Status from "../components/Status";
-import Blue from "../components/Blue";
-import Quest from "../components/Quest";
+import Focal from "../components/homepageComp/Focal";
+import Focal1 from "../components/homepageComp/Focal1";
+import Band from "../components/homepageComp/Band";
+import Title from "../components/homepageComp/Title";
+import Special from "../components/homepageComp/Special";
+import Status from "../components/homepageComp/Status";
+import Blue from "../components/homepageComp/Blue";
+import Quest from "../components/homepageComp/Quest";
 import Footer from "../components/Footer";
 
 export default function Home() {
