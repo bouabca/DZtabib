@@ -6,6 +6,8 @@ import Title from "../components/Title";
 import Special from "../components/Special";
 import Status from "../components/Status";
 import Blue from "../components/Blue";
+import Quest from "../components/Quest";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -27,6 +29,19 @@ export default function Home() {
 
     <Blue/>
 
+  
+    <Quest quest='Do you offer non-profit discounts?'/>
+    <Quest quest='  Can I see who reads my email campaigns?'/>
+    <Quest quest='Can I see who reads my email campaigns?'/>
+
+
+
+    <Footer/>
+
+
     </>
+
+
+
   );
 }
