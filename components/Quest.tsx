@@ -7,7 +7,7 @@ interface QuestProps {
 const Quest: React.FC<QuestProps> = ({ quest }) => {
   return (
     <div
-      className="relative w-[90%] my-5 md:w-[800px] p-5 mx-auto rounded-lg cursor-pointer flex flex-col justify-start items-start gap-3 
+      className="relative w-[90%] my-10 md:w-[800px] p-5 mx-auto rounded-lg cursor-pointer flex flex-col justify-start items-start gap-3 
         bg-white shadow-md overflow-hidden transition-all duration-300 ease-in-out 
         hover:scale-105 hover:shadow-[0_4px_20px_#1376F8] hover:text-white
         before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 
