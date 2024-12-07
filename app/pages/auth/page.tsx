@@ -43,7 +43,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="mx-auto w-full  flex border flex-col justify-center items-center py-10 px-4 bg-gray-100 min-h-screen">
+    <div className="mx-auto w-full  flex  flex-col justify-center items-center py-10 px-4 bg-gray-100 min-h-screen">
       <div className="text-[40px] font-bold text-gray-800 mb-4">Create Account</div>
       <div className="text-[20px] text-gray-600 mb-8">
         ARE YOU A PATIENT OR A DOCTOR?

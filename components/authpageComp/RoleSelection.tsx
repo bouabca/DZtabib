@@ -8,7 +8,7 @@ type RoleSelectionProps = {
 
 const RoleSelection: React.FC<RoleSelectionProps> = ({ userType, handleUserTypeChange }) => {
   return (
-    <div className="flex space-x-4 mb-8">
+    <div className="flex flex-wrap gap-4 mb-8">
       <button
         type="button"
         onClick={() => handleUserTypeChange("doctor")}
