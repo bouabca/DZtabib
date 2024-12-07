@@ -7,11 +7,15 @@ import Special from "../components/homepageComp/Special";
 import Status from "../components/homepageComp/Status";
 import Blue from "../components/homepageComp/Blue";
 import Quest from "../components/homepageComp/Quest";
+import Header from '../components/Header';
+
 import Footer from "../components/Footer";
+
 
 export default function Home() {
   return (
     <>
+     <Header />
       <Focal />
       <Band />
       <Focal1 />
@@ -33,7 +37,7 @@ export default function Home() {
     <Quest quest='Do you offer non-profit discounts?'/>
     <Quest quest='  Can I see who reads my email campaigns?'/>
     <Quest quest='Can I see who reads my email campaigns?'/>
-
+    <Footer/>
 
 
 

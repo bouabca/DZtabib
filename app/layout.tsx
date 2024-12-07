@@ -1,7 +1,4 @@
 
-import Footer from "../components/Footer";
-// import Header from "../components/Header";
-import Header from "../components/Header"
 import "./globals.css";
 
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) 
@@ -9,9 +6,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
   return (
     <html lang="en">
       <body>
-        <Header />
+       
         {children}
-        <Footer/>
+      
       </body>
     </html>
   );

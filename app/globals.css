@@ -25,20 +25,5 @@ html , body , .slider-container{
     margin-right: auto;
  
   }
-  .shape-container {
-    position: relative;
-    width: 100%; /* Adjust the container width as needed */
-    height: 638px; /* Matches the SVG height */
-    background-color: #0081fe;
-    clip-path: polygon(
-      0% 100%,         /* Point (1, 637) */
-      100% 100%,       /* Point (1441, 637) */
-      100% 9.56%,      /* Point (1441, 61.0175) */
-      72.65% 0.16%,    /* Point (1041, 1) */
-      50% 0%,          /* Point (721, 1) */
-      27.35% 0.16%,    /* Point (401, 1) */
-      0% 9.56%         /* Point (1, 61.0175) */
-    );
-    border: 1px solid black; /* Matches SVG stroke */
-  }
+  
   

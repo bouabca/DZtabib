@@ -58,7 +58,7 @@ function Footer() {
 </div>
 
 <div className="px-4 w-[30%] md:w-[280px] mx-auto md:mr-auto bg-black relative gap-4 z-1 h-[100px] rounded-full justify-center items-center flex flex-row group  hover:shadow-[0_0_20px_5px_rgba(0,0,0,0.7)] cursor-pointer transition-all ease duration-300">
-  <img
+  <Image
     src="/svg/play.svg"
     height={60}
     width={60}
@@ -81,7 +81,7 @@ function Footer() {
     rel="noopener noreferrer"
     className="transition-transform hover:scale-110 hover:filter hover:drop-shadow-[0_0_30px_rgba(255,255,255,1)]"
   >
-    <img
+    <Image
       src="/svg/Facebook.svg"
       height={60}
       width={60}
@@ -94,7 +94,7 @@ function Footer() {
     rel="noopener noreferrer"
     className="transition-transform hover:scale-110 hover:filter hover:drop-shadow-[0_0_30px_rgba(255,255,255,1)]"
   >
-    <img
+    <Image
       src="/svg/Linkedin.svg"
       height={60}
       width={60}
@@ -107,7 +107,7 @@ function Footer() {
     rel="noopener noreferrer"
     className=" hover:scale-110 ease transition-all 0.3s ease  hover:filter hover:drop-shadow-[0_0_5px_rgba(255,255,255,1)]"
   >
-    <img
+    <Image
       src="/svg/Twitter.svg"
       height={60}
       width={60}
