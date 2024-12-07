@@ -1,10 +1,10 @@
 'use client'
 import React, { useState } from "react";
-import RoleSelection from '../../../components/authpageComp/RoleSelection';
-import InputFields from '../../../components/authpageComp/InputFields';
-import Buttons from '../../../components/authpageComp/Buttons';
+import RoleSelection from '../../../../components/authpageComp/RoleSelection';
+import InputFields from '../../../../components/authpageComp/InputFields';
+import Buttons from '../../../../components/authpageComp/Buttons';
 
-export default function Auth() {
+export default function signup() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
