@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons for show/hide password
 
 type InputFieldsProps = {
   formData: {
@@ -21,142 +22,175 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData, handleInputChange }
     confirmPassword: '',
   });
 
-  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const validate = () => {
-    let valid = true;
-    const newErrors = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+  const validateField = (name: string, value: string) => {
+    let errorMessage = '';
 
-    // Validate first and last name
-    if (!formData.firstName) {
-      newErrors.firstName = 'First name is required';
-      valid = false;
+    switch (name) {
+      case 'firstName':
+        if (!value.trim()) {
+          errorMessage = 'First name is required';
+        }
+        break;
+
+      case 'lastName':
+        if (!value.trim()) {
+          errorMessage = 'Last name is required';
+        }
+        break;
+
+      case 'email':
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(value)) {
+          errorMessage = 'Please enter a valid email address';
+        }
+        break;
+
+      case 'password':
+        if (value.length < 8) {
+          errorMessage = 'Password must be at least 8 characters';
+        }
+        break;
+
+      case 'confirmPassword':
+        if (value !== formData.password) {
+          errorMessage = 'Passwords do not match';
+        }
+        break;
+
+      default:
+        break;
     }
 
-    if (!formData.lastName) {
-      newErrors.lastName = 'Last name is required';
-      valid = false;
-    }
-
-    // Validate email format
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!formData.email || !emailPattern.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-      valid = false;
-    }
-
-    // Validate password length and complexity
-    if (!formData.password || formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-      valid = false;
-    }
-
-    // Validate confirm password matches
-    if (formData.confirmPassword !== formData.password) {
-      newErrors.confirmPassword = 'Passwords do not match';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
+    return errorMessage;
   };
 
-  const handleInputChangeWithDebounce = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChangeWithValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     handleInputChange(e);
 
-    // Clear any existing timeout to reset the debouncing
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-    }
-
-    // Set a new timeout for 100ms after the last keystroke
-    const timer = setTimeout(() => {
-      validate(); // Run validation after 100ms of no typing
-    }, 100);
-
-    // Store the timeout id to clear it on the next input
-    setDebounceTimer(timer);
+    const fieldError = validateField(name, value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: fieldError,
+    }));
   };
 
   return (
     <div className="flex flex-col space-y-4 justify-between">
-      {/* First and Last Name Row */}
+      {/* First and Last Name */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
-        <div className="w-full gap-4">
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">First Name</label>
           <input
             type="text"
             name="firstName"
             placeholder="First Name"
             value={formData.firstName}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            onChange={handleInputChangeWithValidation}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
         </div>
 
-        <div className="w-full gap-4">
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">Last Name</label>
           <input
             type="text"
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            onChange={handleInputChangeWithValidation}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
         </div>
       </div>
 
-      {/* Email and Birth Date Row */}
+      {/* Email and Birth Date */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
-        <div className="w-full gap-4">
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">Email</label>
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            onChange={handleInputChangeWithValidation}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
-        <div className="w-full gap-4">
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">Birth Date</label>
           <input
             type="date"
             name="birthDate"
             value={formData.birthDate}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            onChange={handleInputChange}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
         </div>
       </div>
 
-      {/* Password and Confirm Password Row */}
+      {/* Password and Confirm Password */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
-        <div className="w-full gap-4">
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-          />
+        <div className="w-full relative">
+          <label className="text-gray-700 font-medium">Password</label>
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChangeWithValidation}
+              className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+            </span>
+          </div>
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
         </div>
 
-        <div className="w-full gap-4">
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleInputChangeWithDebounce}
-            className="w-full gap-4 h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-          />
+        <div className="w-full relative">
+          <label className="text-gray-700 font-medium">Confirm Password</label>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleInputChangeWithValidation}
+              className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+            </span>
+          </div>
           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
         </div>
+      </div>
+
+      {/* Remember Me */}
+      <div className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          checked={rememberMe}
+          onChange={(e) => setRememberMe(e.target.checked)}
+          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label className="text-gray-700">Remember Me</label>
       </div>
     </div>
   );

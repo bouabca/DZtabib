@@ -58,7 +58,7 @@ function Footer() {
 </div>
 
 <div className="px-4 w-[30%] md:w-[280px] mx-auto md:mr-auto bg-black relative gap-4 z-1 h-[100px] rounded-full justify-center items-center flex flex-row group  hover:shadow-[0_0_20px_5px_rgba(0,0,0,0.7)] cursor-pointer transition-all ease duration-300">
-  <Image
+  <Image  
     src="/svg/play.svg"
     height={60}
     width={60}

@@ -19,7 +19,7 @@ function Focal() {
 
         </div>
 
-        <Image src={"/svg/betterwomen.svg"} height={550} width={550} alt='women'/>
+        <Image src={"/webp/betterwomen.webp"} height={550} width={550} alt='women'/>
    
     </div>
   )

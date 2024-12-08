@@ -69,6 +69,12 @@ export default function signup() {
         {/* Buttons */}
         <Buttons />
       </form>
+      <div className="text-[20px] text-center text-gray-600 mt-4">
+        Already have an account?{' '}
+        <a href="/pages/auth/login" className="text-blue-500 hover:underline">
+          Log in
+        </a>
+      </div>
     </div>
   );
 }

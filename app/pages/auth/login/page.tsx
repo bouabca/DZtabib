@@ -45,7 +45,7 @@ export default function Login() {
       {/* Form Section */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 space-y-6"
+        className="w-full  max-w-md bg-white rounded-lg shadow-lg p-6 space-y-6"
       >
         {/* Input Fields for Login */}
         <LoginInputFields 
@@ -55,7 +55,15 @@ export default function Login() {
 
         {/* Buttons (e.g., submit button) */}
     <Buttons></Buttons>
+    
       </form>
+      <div className="text-[20px] text-center text-gray-600 mt-4">
+        Dont have an account?{' '}
+        <a href="/pages/auth/signup" className="text-red hover:underline">
+          Sign up
+        </a>
+      </div>
     </div>
+    
   );
 }

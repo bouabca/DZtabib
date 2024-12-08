@@ -13,7 +13,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
             <div className='text-white text-[40px] font-bold text-center '>Social media shared today,</div>
             <div className='text-white text-[40px] font-bold text-center '> tomorrow or by location</div>
             <Image
-            src="/svg/betterwomen.svg"
+            src="/webp/betterwomen.webp"
             height={600}
             width={600}
             alt="betterwomen"
@@ -22,7 +22,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
         </div>
         <div className='w-full pad  h-full flex-col p flex justify-start items-start'>
 
-<div   className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
+<a   href='/' className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
      <Image 
    
        src="/svg/logo.svg" 
@@ -40,10 +40,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
    priority // Ensures it loads faster (above-the-fold)
  />
 
-</div>
+</a >
 
 {children}
-
 
 </div>
      
