@@ -1,19 +1,21 @@
-'use client'
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import RoleSelection from '../../../../components/authpageComp/RoleSelection';
 import InputFields from '../../../../components/authpageComp/InputFields';
 import Buttons from '../../../../components/authpageComp/Buttons';
 
 export default function signup() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    birthDate: "",
-    password: "",
-    confirmPassword: "",
-    userType: "", // Either "doctor" or "patient"
+    firstName: '',
+    lastName: '',
+    email: '',
+    birthDate: '',
+    password: '',
+    confirmPassword: '',
+    userType: '', // Either "doctor" or "patient"
   });
+
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,23 +29,69 @@ export default function signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Fetch request with GET method
+    // Check if all fields are filled
+    const {
+      firstName,
+      lastName,
+      email,
+      birthDate,
+      password,
+      confirmPassword,
+      userType,
+    } = formData;
+
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !birthDate ||
+      !password ||
+      !confirmPassword ||
+      !userType
+    ) {
+      setError('Please fill out all fields.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setError('');
+
+    // Fetch request with POST method
     try {
-      const response = await fetch(
-        `/api/create-account?firstName=${formData.firstName}&lastName=${formData.lastName}&email=${formData.email}&birthDate=${formData.birthDate}&password=${formData.password}&userType=${formData.userType}`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch('/api/create-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          birthDate,
+          password,
+          userType,
+        }),
+      });
+
       const data = await response.json();
-      console.log("Response from server:", data);
+      console.log('Response from server:', data);
     } catch (error) {
-      console.error("Error:", error);
+      console.log(      firstName,
+          lastName,
+          email,
+          birthDate,
+          password,
+          userType,)
+      console.error('Error:', error);
     }
   };
 
   return (
-    <div className="mx-auto w-full  flex  flex-col justify-center items-center py-10 px-4 bg-gray-100 min-h-screen">
+    <div className="mx-auto w-full flex flex-col justify-center items-center py-10 px-4">
       <div className="text-[40px] font-bold text-gray-800 mb-4">Create Account</div>
       <div className="text-[20px] text-gray-600 mb-8">
         ARE YOU A PATIENT OR A DOCTOR?
@@ -58,13 +106,16 @@ export default function signup() {
       {/* Form Section */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 space-y-6"
+        className="w-full  bg-white rounded-lg  p-6 space-y-6"
       >
         {/* Input Fields */}
         <InputFields 
           formData={formData} 
           handleInputChange={handleInputChange}
         />
+
+        {/* Error Message */}
+        {error && <div className="text-red-500 text-sm">{error}</div>}
 
         {/* Buttons */}
         <Buttons />

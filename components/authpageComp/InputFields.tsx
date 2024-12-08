@@ -185,6 +185,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData, handleInputChange }
       {/* Remember Me */}
       <div className="flex items-center space-x-2">
         <input
+        required
           type="checkbox"
           checked={rememberMe}
           onChange={(e) => setRememberMe(e.target.checked)}

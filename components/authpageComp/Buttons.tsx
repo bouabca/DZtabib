@@ -11,7 +11,8 @@ const Buttons: React.FC = () => {
         Create Account
       </button>
       <button
-        type="button"
+        type="submit"
+      
         className="w-full md:w-1/2 bg-[#2D3748] text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-700 transition-all"
       >
         Sign In with Google
