@@ -121,77 +121,7 @@ function Footer() {
       </div>
     </div>
   </foreignObject>
-</svg>
-
-      {/* <div className='text-[120px] ml-[5%]'>Ready to get started</div>
-
-
-      <div className='flex flex-row gap-7 relative z-1  justify-center items-center '>
-
-      <div className=' px-4 w-[280px] ml-[5%] bg-white relative gap-4 z-1 h-[100px] rounded-full  justify-center items-center flex flex-row'>
-      <Image
-        src={"/svg/apple.svg"}
-        height={60}
-        width={60}
-        alt="apple"
-      
-      />
-      <div className='flex flex-col '>
-        <div className='text-[20px]'>Download on the </div>
-        <div className='text-[25px] font-bold'>APP store</div>
-      </div>
-      </div>
-
-      <div className=' px-4 w-[280px] mr-auto  bg-black relative gap-4 z-1 h-[100px] rounded-full  justify-center items-center flex flex-row'>
-      <Image
-        src={"/svg/play.svg"}
-        height={60}
-        width={60}
-        alt="play"
-      
-      />
-      <div className='flex flex-col '>
-        <div className='text-[20px] text-white'>Download on the </div>
-        <div className='text-[25px] text-white font-bold'>APP store</div>
-      </div>
-      </div>
-
-      <div className='text-[25px] text-white mr-[5%]'>
-      © 2019 APCOM. All Rights Reserved
-      </div>
-
-      <Image
-        src={"/svg/Facebook.svg"}
-        height={60}
-        width={60}
-        alt="Facebook"
-      
-      />
-         <Image
-        src={"/svg/Linkedin.svg"}
-        height={60}
-        width={60}
-        alt="Linkedin"
-      
-      />
-
-
-      <Image
-        src={"/svg/Twitter.svg"}
-        height={60}
-        width={60}
-        alt="Twitter"
-        className='mr-[5%]'
-      />
-
-
-
-
-      </div> */}
-    
-
-
-      
+</svg>  
     </div>
   );
 }

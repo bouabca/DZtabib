@@ -15,7 +15,9 @@ import Footer from "../components/Footer";
 export default function Home() {
   return (
     <>
-     <Header />
+
+
+    <Header />
       <Focal />
       <Band />
       <Focal1 />
@@ -40,6 +42,9 @@ export default function Home() {
     <Footer/>
 
 
+
+
+    
 
 
     </>

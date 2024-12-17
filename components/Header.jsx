@@ -34,13 +34,13 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <ul className="md:items-center lg:flex hidden mr-auto">
-        {["Home", "Services", "About", "Contact"].map((menuItem, index) => (
+        {["", "services", "About", "Contact"].map((menuItem, index) => (
           <li
             key={index}
             className="mx-6 whitespace-nowrap font-medium flex-none relative group"
           >
             <Link
-              href={`/${menuItem.toLowerCase().replace(" ", "")}`}
+              href={`pages/${menuItem}`}
               className="relative text-xl transition duration-300 w-fit block text-mainColor tracking-wide hover:text-orangeColor"
             >
               {menuItem}
