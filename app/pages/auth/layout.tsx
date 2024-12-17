@@ -18,8 +18,8 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
   </div>
   <Image
     src="/webp/betterwomen.webp"
-    height={600}
-    width={600}
+    height={500}
+    width={500}
     alt="betterwomen"
     className="w-[80%] md:w-[60%] lg:w-[50%] h-auto mx-auto"
   />
