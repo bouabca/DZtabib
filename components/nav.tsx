@@ -17,9 +17,9 @@ const Nav = () => {
             const isActive = pathname.includes(tab.toLowerCase());
 
             return (  
-            <Link key={tab} href={`/pages/dash/${tab.toLowerCase()}`} passHref>
+            <Link key={tab} href={`/pages/dash/${tab.toLowerCase()}`} passHref className='w-[90%] '>
                 <div
-                className={`text-[24px] rounded-[12px] p-[7px] px-[25px]  w-[300px]  cursor-pointer transition-all duration-300 ${
+                className={`text-[16px] lg:text-[24px]   rounded-[12px] p-[7px] px-[25px] w-[320px]  md:w-[100%] h-auto  cursor-pointer transition-all duration-300 ${
                     isActive
                     ? "bg-blue-500 text-white scale-105"
                     : " text-black hover:scale-105 hover:bg-blue-100"
