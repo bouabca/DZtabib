@@ -1,6 +1,7 @@
 
 import Image from "next/image";
 import Nav from "../../../components/nav"
+import Link from "next/link";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
@@ -11,10 +12,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Sidebar Section */}
           <div className="w-screen   md:w-[20%]  lg:w-[20%] overflow-x-visible   md:overflow-hidden md:overflow-y-scroll flex flex-col   gap-4 md:items-center   py-[20px] bg-slate-50 sidebar">
             {/* Logo */}
-            <div className="md:ml-[15%] gap-2  w-max-[80%]  mr-auto flex justify-center items-center text-[24px] lg:text-[30px] font-bold">
+            <Link className="md:ml-[15%] gap-2  w-max-[80%]  mr-auto flex justify-center items-center text-[24px] lg:text-[30px] font-bold" href={"/"}>
               <Image src="/svg/logo.svg" alt="logo" width={40} height={40} priority />
               Boostify
-            </div>
+            </Link>
 
             {/* Navigation Tabs */}
             <div className="flex flex-row  md:flex-col overflow-x-scroll overflow-y-hidden md:overflow-visible justify-start items-center w-screen md:h-min h-min md:w-[95%]  md:gap-3 ">
