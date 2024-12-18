@@ -8,12 +8,12 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
   return (
     <html lang="en">
       <body>
-        <div className="w-full  text-[25px] md:text-[80px] flex h-full flex-row ">
+        <div className="w-full  text-[25px] md:text-[30px] flex h-full flex-row ">
         <div className="left flex flex-col items-center justify-center h-auto  mx-auto px-4 md:px-8">
-  <div className="text-white font-bold text-center  mb-4">
+  <div className="text-white  text-[25px]    lg:text-[35px] font-bold text-center  mb-4">
     Social media shared today,
   </div>
-  <div className="text-white font-bold text-center  mb-6">
+  <div className="text-white  text-[25px]  lg:text-[35px] font-bold text-center  mb-6">
     tomorrow or by location
   </div>
   <Image
@@ -21,7 +21,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
     height={500}
     width={500}
     alt="betterwomen"
-    className="w-[80%] md:w-[60%] lg:w-[50%] h-auto mx-auto"
+    className="w-[40%] md:w-[60%] lg:w-[70%] h-auto mx-auto overflow-hidden"
   />
 </div>
 
