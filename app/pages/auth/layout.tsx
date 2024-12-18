@@ -3,11 +3,11 @@ import './style.css'
 
 
 import Image from "next/image";
+import Link from 'next/link';
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) 
 {
   return (
-    <html lang="en">
-      <body>
+  
         <div className="w-full  text-[25px] md:text-[30px] flex h-full flex-row ">
         <div className="left flex flex-col items-center justify-center h-auto  mx-auto px-4 md:px-8">
   <div className="text-white  text-[25px]    lg:text-[35px] font-bold text-center  mb-4">
@@ -27,7 +27,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
 
           <div className='w-full pad   flex-col sac   flex justify-start items-start'>
 
-            <a   href='/' className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
+            <Link   href='/' className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
                 <Image 
               
                   src="/svg/logo.svg" 
@@ -45,7 +45,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
               priority 
             />
 
-            </a >
+            </Link >
 
 
              {children}
@@ -58,9 +58,6 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
      
         </div>
       
-      
      
-      </body>
-    </html>
   );
 }

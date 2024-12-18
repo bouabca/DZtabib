@@ -45,7 +45,7 @@ function Footer() {
 
       <div className="flex flex-col md:flex-row gap-7 mt-[0%] md:mt-[21%] relative z-1 justify-center items-center">
       <div className="px-4 w-[30%] md:w-[280px] scale-100 md:scale-[0.7]  mx-[-40px] md:ml-[5%] bg-white relative gap-4 z-1 h-[100px] rounded-full justify-center items-center flex flex-row group hover:shadow-[0_0_20px_5px_rgba(255,255,255,0.7)]  cursor-pointer transition-all ease duration-300">
-  <img
+  <Image
     src="/svg/apple.svg"
     height={60}
     width={60}

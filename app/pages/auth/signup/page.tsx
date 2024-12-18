@@ -4,7 +4,7 @@ import RoleSelection from '../../../../components/authpageComp/RoleSelection';
 import InputFields from '../../../../components/authpageComp/InputFields';
 import Buttons from '../../../../components/authpageComp/Buttons';
 
-export default function signup() {
+export default function Signup() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

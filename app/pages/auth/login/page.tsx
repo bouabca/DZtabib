@@ -80,7 +80,7 @@ export default function Login() {
         <Buttons />
       </form>
       <div className="text-[20px] text-center text-gray-600 mt-4">
-        Don't have an account?{' '}
+        Dont have an account?{' '}
         <a href="/pages/auth/signup" className="text-blue-500 hover:underline">
           Sign up
         </a>

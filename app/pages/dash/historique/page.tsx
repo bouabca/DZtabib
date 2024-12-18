@@ -1,6 +1,6 @@
 // /pages/dash/notification.tsx
 import React from "react";
-import RootLayout from '../layout'
+
 
 const historique = () => {
   return (

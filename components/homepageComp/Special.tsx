@@ -4,13 +4,13 @@ import Sp from './Sp';
 
 function Special() {
   const slides = [
-    <Sp text="Cardiologue" imageSrc="/webp/geek.webp" />,
-    <Sp text="Dermatologue" imageSrc="/webp/women2.webp" />,
-    <Sp text="Pédiatre" imageSrc="/webp/eyes.webp" />,
-    <Sp text="Ophtalmologue" imageSrc="/webp/geek.webp" />,
-    <Sp text="Dentiste" imageSrc="/webp/women2.webp" />,
-    <Sp text="Neurologue" imageSrc="/webp/eyes.webp" />,
-    <Sp text="Chirurgien" imageSrc="/webp/geek.webp" />,
+    <Sp text="Cardiologue" key={1}  imageSrc="/webp/geek.webp" />,
+    <Sp text="Dermatologue"key={2}  imageSrc="/webp/women2.webp" />,
+    <Sp text="Pédiatre"key={3}  imageSrc="/webp/eyes.webp" />,
+    <Sp text="Ophtalmologue"key={4}  imageSrc="/webp/geek.webp" />,
+    <Sp text="Dentiste"key={5}  imageSrc="/webp/women2.webp" />,
+    <Sp text="Neurologue"key={6}  imageSrc="/webp/eyes.webp" />,
+    <Sp text="Chirurgien"key={7}  imageSrc="/webp/geek.webp" />,
   ];
 
   const sliderRef = useRef<HTMLDivElement>(null);
