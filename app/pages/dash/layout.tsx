@@ -12,17 +12,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html  lang="en">
       <body  >
-        <div className="w-full h-full flex flex-row md:flex-col">
+        <div className="w-full h-full flex md:flex-row flex-col">
           {/* Sidebar Section */}
-          <div className="lg:w-[400px] md:w-[30%] hidden md:flex flex-col justify-start gap-4 items-center  border px-[20px] py-[20px] bg-slate-50 sidebar">
+          <div className="w-screen  md:w-[40%] lg:w-[25%] overflow-hidden flex flex-col   gap-4 md:items-center  border py-[20px] bg-slate-50 sidebar">
             {/* Logo */}
-            <div className="gap-2 mr-auto flex justify-center items-center text-[40px] font-bold">
+            <div className="gap-2 ml-[15%] mr-auto flex justify-center items-center text-[40px] font-bold">
               <Image src="/svg/logo.svg" alt="logo" width={60} height={60} priority />
               Boostify
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex flex-col">
+            <div className="flex flex-row md:flex-col overflow-x-scroll md:overflow-hidden justify-start items-center w-screen h-[120px] md:h-min md:w-[95%] md:gap-3 ">
             {tabs.map((tab) => {
 
               const isActive = pathname.includes(tab.toLowerCase());
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               return (  
                 <Link key={tab} href={`/pages/dash/${tab.toLowerCase()}`} passHref>
                   <div
-                    className={` rounded-[12px] p-[7px] px-[25px]  cursor-pointer transition-all duration-300 ${
+                    className={`text-[24px] rounded-[12px] p-[7px] px-[25px]  w-[300px]  cursor-pointer transition-all duration-300 ${
                       isActive
                         ? "bg-blue-500 text-white scale-105"
                         : " text-black hover:scale-105 hover:bg-blue-100"
@@ -45,14 +45,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
            
 
             {/* Footer Links */}
-            <div className="mt-auto w-[280px]">
-              <div className=" rounded-[12px] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
+            <div className="hidden md:flex mt-auto flex-row md:flex-col overflow-x-scroll md:overflow-hidden justify-start items-center w-screen h-[120px] md:h-min md:w-[95%] md:gap-3 ">
+              <div className=" text-[24px]  w-[300px]  rounded-[12px] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
                 Terms & Conditions
               </div>
-              <div className=" rounded-[12px] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
+              <div className=" text-[24px]  w-[300px]   rounded-[12px] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
                 Support
               </div>
-              <div className=" rounded-[12px] mb-[2%] text-[#D50C0C] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
+              <div className=" text-[24px]   w-[300px]  rounded-[12px] mb-[2%] text-[#D50C0C] p-[7px] px-[25px] cursor-pointer transition-all duration-300">
                 Log out
               </div>
             </div>
