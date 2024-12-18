@@ -144,7 +144,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
 
       {/* Speciality and Diploma Code */}
       {
-        (type == "patient") ? 
+        (type != "patient") ? 
         
         <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full">
