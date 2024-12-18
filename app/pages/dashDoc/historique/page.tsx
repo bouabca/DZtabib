@@ -4,10 +4,10 @@ import React from "react";
 import AppointmentList from "../../../../components/docdashComp/list"
 const historique = () => {
   const appointments = [
-    { date: "2024-12-18", patient: "John Doe", type: "Checkup", number: "001", email: "john@example.com" },
-    { date: "2024-12-19", patient: "Jane Smith", type: "Consultation", number: "002", email: "jane@example.com" },
-    { date: "2024-12-20", patient: "Alice Brown", type: "Surgery", number: "003", email: "alice@example.com" },
-    { date: "2024-12-21", patient: "Bob Johnson", type: "Follow-up", number: "004", email: "bob@example.com" },
+    {id:"0", date: "2024-12-18", patient: "John Doe", type: "Checkup", number: "001", email: "john@example.com" },
+    { id:"1", date: "2024-12-19", patient: "Jane Smith", type: "Consultation", number: "002", email: "jane@example.com" },
+    { id:"2", date: "2024-12-20", patient: "Alice Brown", type: "Surgery", number: "003", email: "alice@example.com" },
+    { id:"3", date: "2024-12-21", patient: "Bob Johnson", type: "Follow-up", number: "004", email: "bob@example.com" },
     // Add more entries as needed
   ];
   

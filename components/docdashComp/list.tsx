@@ -1,5 +1,7 @@
+
 import React from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import DropdownMenu from "../docdashComp/dropdown";
+
 interface AppointmentRowProps {
   date: string;
   patient: string;
@@ -14,19 +16,27 @@ const AppointmentRow: React.FC<AppointmentRowProps> = ({
   type,
   number,
   email,
-}) => (
-  <div className="w-[99.9%] text-[24px] flex flex-row justify-between items-center border-b-2 border-solid  px-8 mx-auto py-4">
-    <div className="w-[150px] text-start border-solid border-2  border-black">{date}</div>
-    <div className="w-[200px] text-start border-solid border-2 border-black">{patient}</div>
-    <div className="w-[180px] text-start border-solid border-2 border-black">{type}</div>
-    <div className="w-[250px] text-start border-solid border-2 border-black">{number}</div>
-    <div className="w-[250px] text-start border-solid border-2 border-black">{email}</div>
-    <div className="w-[200px] flex flex-row justify-center items-center  text-start border-solid border-2 border-black">
-      <button className="bg-gray-400  text-white px-4 py-2 rounded">Start Meet</button>
-      <BsThreeDotsVertical size={45} />
+}) => {
+
+
+  return (
+    <div className="w-[99.9%] text-[24px] flex flex-row justify-between items-center border-b-2 border-solid px-8 mx-auto py-4">
+      <div className="w-[150px] text-start border-solid border-2  border-black">{date}</div>
+      <div className="w-[200px] text-start border-solid border-2 border-black">{patient}</div>
+      <div className="w-[180px] text-start border-solid border-2 border-black">{type}</div>
+      <div className="w-[250px] text-start border-solid border-2 border-black">{number}</div>
+      <div className="w-[250px] text-start border-solid border-2 border-black">{email}</div>
+      <div className="w-[200px] flex flex-row justify-center items-center text-start border-solid border-2 border-black">
+        <button className="bg-gray-400 text-white px-4 py-2 rounded">Start Meet</button>
+
+        {/* Dropdown button */}
+        <DropdownMenu />
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+
 
 interface AppointmentListProps {
   appointments: {
