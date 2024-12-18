@@ -1,13 +1,9 @@
-"use client";
+
 import "./globals.css";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Nav from "../../../components/nav"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
-  const tabs = ["Notification", "Apoitments", "Historique", "Profile"];
 
   return (
     <html  lang="en">
@@ -23,24 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Navigation Tabs */}
             <div className="flex flex-row md:flex-col overflow-x-scroll md:overflow-hidden justify-start items-center w-screen h-[120px] md:h-min md:w-[95%] md:gap-3 ">
-            {tabs.map((tab) => {
-
-              const isActive = pathname.includes(tab.toLowerCase());
-
-              return (  
-                <Link key={tab} href={`/pages/dash/${tab.toLowerCase()}`} passHref>
-                  <div
-                    className={`text-[24px] rounded-[12px] p-[7px] px-[25px]  w-[300px]  cursor-pointer transition-all duration-300 ${
-                      isActive
-                        ? "bg-blue-500 text-white scale-105"
-                        : " text-black hover:scale-105 hover:bg-blue-100"
-                    }`}
-                  >
-                    {tab}
-                  </div>
-                </Link>
-              );
-              })}
+           <Nav></Nav>
             </div>
            
 
