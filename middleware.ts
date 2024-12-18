@@ -15,7 +15,10 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(url);
       }
   }
-
+  if (url.pathname === '/pages/dashPat') {
+    url.pathname = '/pages/dashPat/search'; // Redirect to '/dash/notification'
+    return NextResponse.redirect(url);
+  }
 
   return NextResponse.next(); // Allow other routes to proceed as normal
 }

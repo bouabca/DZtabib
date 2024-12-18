@@ -4,8 +4,9 @@ import Nav from "../../../components/nav"
 import Link from "next/link";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const tabs = ["Notification", "appointments", "historique", "Profile"];
+  const tabs = ["Search","notification", "appointments", "profile"];
   return (
+    
     <html  lang="en">
       <body  >
         <div className="w-full h-full overflow-y-scroll overflow-x-hidden  flex md:flex-row flex-col">
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Navigation Tabs */}
             <div className="flex flex-row  md:flex-col overflow-x-scroll overflow-y-hidden md:overflow-visible justify-start items-center w-screen md:h-min h-min md:w-[95%]  md:gap-3 ">
-           <Nav tabs={tabs}></Nav>
+            <Nav tabs={tabs} />
             </div>
            
 
@@ -43,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="h-[80px] w-full bg-white border flex items-center justify-start ">
               <div className="flex px-8 flex-col gap-0 text-start justify-start items-start">
                  <div className="text-[24px] font-bold">Dashboard</div>
-                 <div  className="text-[20px] font-bold text-blue-500" >Doctor</div>
+                 <div  className="text-[20px] font-bold text-blue-500" >Patient</div>
                  </div>
           
             </div>

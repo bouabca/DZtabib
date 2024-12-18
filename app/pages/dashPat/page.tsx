@@ -1,10 +1,14 @@
+
 import React from 'react';
 
-export default function Dashboard() {
+
+
+export default function dashPat() {
   return (
     <>
-   
-    <div>Dashboard</div>
+ 
+
+
 
     </>
 
