@@ -2,6 +2,7 @@
 import Link from "next/link";
 
 
+import './hover.css';
 import Image from "next/image";
 
 
@@ -9,7 +10,7 @@ const Header = () => {
 
 
   return (
-    <div className="h-[88px] px-[7%] flex justify-center items-center w-full bg-white">
+    <div className="h-[88px] absolute px-[7%] flex justify-center items-center w-full bg-white">
     
         {/* Logo - Preloaded image for faster load */}
         <div   className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
@@ -33,22 +34,18 @@ const Header = () => {
      
 
         {/* Desktop Navigation */}
-        <ul className="md:items-center lg:flex hidden mr-auto">
-        {["", "services", "About", "Contact"].map((menuItem, index) => (
-          <li
-            key={index}
-            className="mx-6 whitespace-nowrap font-medium flex-none relative group"
-          >
-            <Link
-              href={`pages/${menuItem}`}
-              className="relative text-xl transition duration-300 w-fit block text-mainColor tracking-wide hover:text-orangeColor"
-            >
-              {menuItem}
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+        <ul className="menu-list">
+          {["Dashboard", "services", "About", "Contact"].map((menuItem, index) => (
+            <li key={index} className="menu-item">
+              <a href={`pages/${menuItem}`} className="menu-link">
+                {menuItem}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+
+
 
 
         {/* Desktop Buttons */}
