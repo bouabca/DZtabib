@@ -10,7 +10,7 @@ const Header = () => {
 
 
   return (
-    <div className="h-[88px] absolute px-[7%] flex justify-center items-center w-full bg-white">
+    <div className="h-[88px] py-8 px-[7%] flex justify-center items-center w-full bg-white">
     
         {/* Logo - Preloaded image for faster load */}
         <div   className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
@@ -34,7 +34,8 @@ const Header = () => {
      
 
         {/* Desktop Navigation */}
-        <ul className="menu-list">
+        <div className="hidden mr-auto md:block">
+        <ul className="menu-list  ">
           {["Dashboard", "services", "About", "Contact"].map((menuItem, index) => (
             <li key={index} className="menu-item">
               <a href={`pages/${menuItem}`} className="menu-link">
@@ -43,6 +44,8 @@ const Header = () => {
             </li>
           ))}
         </ul>
+        </div>
+       
 
 
 
