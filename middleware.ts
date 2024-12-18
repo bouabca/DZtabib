@@ -14,6 +14,13 @@ export function middleware(request: NextRequest) {
         url.pathname = '/pages/dashDoc/notification'; // Redirect to '/dash/notification'
         return NextResponse.redirect(url);
       }
+      else 
+      {
+        if(url.pathname === '/pages/dashPat'){
+            url.pathname = '/pages/dashPat/search'; // Redirect to '/dash/notification'
+            return NextResponse.redirect(url);
+          }
+      }
   }
 
 
