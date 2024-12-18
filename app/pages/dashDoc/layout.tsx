@@ -40,16 +40,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Main Dashboard Section */}
           <div className=" w-screen md:w-[80%] h-min md:h-full bg-[#F5F5F6] flex flex-col justify-center items-center">
             {/* Top Search Bar */}
-            <div className="h-[80px] w-full bg-white border flex items-center justify-end p-4">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-[300px] h-[40px] rounded-lg bg-gray-200 text-gray-600 placeholder-gray-500 px-4 focus:outline-none focus:ring-2 mr-[8%] focus:ring-gray-400"
-              />
+            <div className="h-[80px] w-full bg-white border flex items-center justify-start ">
+              <div className="flex px-8 flex-col gap-0 text-start justify-start items-start">
+                 <div className="text-[24px] font-bold">Dashboard</div>
+                 <div  className="text-[20px] font-bold text-blue-500" >Doctor</div>
+                 </div>
+          
             </div>
 
             {/* Dynamic Content */}
             <div className="overflow-x-scroll    w-[100%] h-min md:h-full">
+
               {children}
             </div>
           </div>
