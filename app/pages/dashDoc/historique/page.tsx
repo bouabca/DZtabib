@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import AppointmentList from "../../../../components/docdashComp/list";
 
-const historique = () => {
+const Historique = () => {
   const [search, setSearch] = useState(""); // State for search input
   const appointments = [
     {id:"0", date: "2024-12-18", patient: "John Doe", type: "Checkup", number: "001", email: "john@example.com" },
@@ -51,4 +51,4 @@ const historique = () => {
   );
 };
 
-export default historique;
+export default Historique;
