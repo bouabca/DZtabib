@@ -19,7 +19,7 @@ const Apoitments = () => {
   );
 
   return (
-    <>
+    <div className="overflow-x-visible">
       <input
         type="text"
         placeholder="Search..."
@@ -27,14 +27,17 @@ const Apoitments = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)} // Update search input on change
       />
-      <div className="p-4 m-4 rounded-[10px] overflow-visible  w-[1200px] md:w-[98%] mx-auto    bg-white">
+      <div className="overflow-x-scroll ">
+      <div className="p-4 m-4  rounded-[10px] overflow-y-visible    w-[1200px] md:w-[98%] mx-auto    bg-white">
         
         <Dashhead></Dashhead>
 
         {/* Pass the filtered appointments to AppointmentList */}
         <AppointmentList appointments={filteredAppointments} />
       </div>
-    </>
+      </div>
+     
+    </div>
   );
 };
 

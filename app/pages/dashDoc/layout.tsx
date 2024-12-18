@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* Dynamic Content */}
-            <div className="overflow-x-scroll    w-[100%] h-min md:h-full">
+            <div className=" w-[100%]    h-min md:h-full">
 
               {children}
             </div>
