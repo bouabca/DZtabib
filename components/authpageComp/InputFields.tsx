@@ -9,11 +9,16 @@ type InputFieldsProps = {
     birthDate: string;
     password: string;
     confirmPassword: string;
+    speciality: string; // New field
+    diplomaCode: string; // New field
+ 
+
   };
+  type : string ;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputFields: React.FC<InputFieldsProps> = ({ formData, handleInputChange }) => {
+const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputChange },) => {
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -137,6 +142,40 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData, handleInputChange }
         </div>
       </div>
 
+      {/* Speciality and Diploma Code */}
+      {
+        (type == "patient") ? 
+        
+        <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">Speciality</label>
+          <input
+            type="text"
+            name="speciality"
+            placeholder="Speciality"
+            value={formData.speciality}
+            onChange={handleInputChange}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+          />
+        </div>
+
+        <div className="w-full">
+          <label className="text-gray-700 font-medium">Diploma Code</label>
+          <input
+            type="text"
+            name="diplomaCode"
+            placeholder="Diploma Code"
+            value={formData.diplomaCode}
+            onChange={handleInputChange}
+            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+          />
+        </div>
+      </div>
+        : 
+        <></>
+      }
+     
+
       {/* Password and Confirm Password */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full relative">
@@ -185,7 +224,6 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData, handleInputChange }
       {/* Remember Me */}
       <div className="flex items-center space-x-2">
         <input
-        required
           type="checkbox"
           checked={rememberMe}
           onChange={(e) => setRememberMe(e.target.checked)}

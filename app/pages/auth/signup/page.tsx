@@ -12,7 +12,10 @@ export default function Signup() {
     birthDate: '',
     password: '',
     confirmPassword: '',
-    userType: '', // Either "doctor" or "patient"
+    userType: 'patient', // Either "doctor" or "patient"
+    speciality: '', // New field
+    diplomaCode: '', // New field
+  
   });
 
   const [error, setError] = useState('');
@@ -38,6 +41,8 @@ export default function Signup() {
       password,
       confirmPassword,
       userType,
+      speciality,
+      diplomaCode,
     } = formData;
 
     if (
@@ -47,7 +52,9 @@ export default function Signup() {
       !birthDate ||
       !password ||
       !confirmPassword ||
-      !userType
+      !userType ||
+      !speciality || // Check if speciality is filled
+      !diplomaCode   // Check if diplomaCode is filled
     ) {
       setError('Please fill out all fields.');
       return;
@@ -74,18 +81,15 @@ export default function Signup() {
           birthDate,
           password,
           userType,
+          speciality, // Include speciality in the body
+          diplomaCode, // Include diplomaCode in the body
         }),
       });
 
       const data = await response.json();
       console.log('Response from server:', data);
     } catch (error) {
-      console.log(      firstName,
-          lastName,
-          email,
-          birthDate,
-          password,
-          userType,)
+      console.log(firstName, lastName, email, birthDate, password, userType, speciality, diplomaCode);
       console.error('Error:', error);
     }
   };
@@ -106,11 +110,12 @@ export default function Signup() {
       {/* Form Section */}
       <form
         onSubmit={handleSubmit}
-        className="w-full  bg-white rounded-lg  p-6 space-y-6"
+        className="w-full bg-white rounded-lg p-6 space-y-6"
       >
         {/* Input Fields */}
         <InputFields 
           formData={formData} 
+          type={formData.userType}
           handleInputChange={handleInputChange}
         />
 
