@@ -14,7 +14,7 @@ const Quest: React.FC<QuestProps> = ({ quest }) => {
         before:rounded-lg before:bg-[#1376F8] before:transition-all before:duration-300 before:ease-out 
         hover:before:h-full hover:before:w-full"
     >
-      <li className="relative text-[22px] font-semibold">{quest}</li>
+      <div className="relative text-[22px] font-semibold">{quest}</div>
       <div className="relative w-[98%] h-[2px] bg-black opacity-40 rounded-full"></div>
     </div>
   );
