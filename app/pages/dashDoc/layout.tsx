@@ -13,8 +13,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="w-screen   md:w-[20%]  lg:w-[20%] overflow-x-visible   md:overflow-hidden md:overflow-y-scroll flex flex-col   gap-4 md:items-center   py-[20px] bg-slate-50 sidebar">
             {/* Logo */}
             <Link className="md:ml-[15%] gap-2  w-max-[80%]  mr-auto flex justify-center items-center text-[24px] lg:text-[30px] font-bold" href={"/"}>
-              <Image src="/svg/logo.svg" alt="logo" width={40} height={40} priority />
-              Boostify
+            <Image 
+          src="/svg/logo.svg" 
+          alt="logo" 
+          width={60} 
+          height={60} 
+          priority // Ensures it loads faster (above-the-fold)
+        />
+              <Image 
+      
+      src="/png/tabib.png" 
+      alt="logo" 
+      width={160} 
+      height={160} 
+      priority // Ensures it loads faster (above-the-fold)
+    />
+    
             </Link>
 
             {/* Navigation Tabs */}
