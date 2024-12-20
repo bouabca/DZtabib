@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image";
+import Link from 'next/link';
 
 
 function Card() {
@@ -15,7 +16,7 @@ function Card() {
     />
     <div className='text-[30px] text-center  font-bold '>Best tratement possible</div>
     <div className='text-[20px] opacity-60 text-center font-bold '>Root canal treatment endodontics is a dental procedure used to treat infection at the centre of a tooth.</div>
-    <a className='text-[20px] underline'>learn more</a>
+    <Link href={"/"} className='text-[20px] underline'>learn more</Link>
   </div>
 
   )
