@@ -1,5 +1,7 @@
 import React from "react";
 import DropdownMenu from "../docdashComp/dropdown";
+import DropdownMenuMobile from "../docdashComp/dropdownmobile"
+import Image from "next/image";
 
 interface AppointmentRowProps {
   id: string;
@@ -19,20 +21,43 @@ const AppointmentRow: React.FC<AppointmentRowProps> = ({
   email,
 }) => {
   return (
-    <div
-      key={id}
-      className="w-[99.9%] text-[24px] flex flex-row justify-between items-center border-b-2 border-solid px-8 mx-auto py-4 hover:bg-slate-100 hover:text-blue-500 cursor-pointer transition-all ease-in duration-[200ms]"
-    >
-      <div className="w-[150px] text-start border-solid border-2 border-black">{date}</div>
-      <div className="w-[200px] text-start border-solid border-2 border-black">{patient}</div>
-      <div className="w-[180px] text-start border-solid border-2 border-black">{type}</div>
-      <div className="w-[250px] text-start border-solid border-2 border-black">{number}</div>
-      <div className="w-[250px] text-start border-solid border-2 border-black">{email}</div>
-      <div className="w-[200px] flex flex-row justify-center items-center text-start border-solid border-2 border-black">
-        <button className="bg-gray-400 text-white px-4 py-2 rounded">Start Meet</button>
-        <DropdownMenu />
-      </div>
+    <><div
+    key={id}
+    className="w-[99.9%] hidden md:flex flex-row justify-between items-center border-b-2 border-solid px-8 mx-auto py-4 hover:bg-slate-100 hover:text-blue-500 cursor-pointer transition-all ease-in duration-[200ms]"
+  >
+    <div className="w-[150px] text-start border-solid border-2 border-black">{date}</div>
+    <div className="w-[200px] text-start border-solid border-2 border-black">{patient}</div>
+    <div className="w-[180px] text-start border-solid border-2 border-black">{type}</div>
+    <div className="w-[250px] text-start border-solid border-2 border-black">{number}</div>
+    <div className="w-[250px] text-start border-solid border-2 border-black">{email}</div>
+    <div className="w-[200px] flex flex-row justify-center items-center text-start border-solid border-2 border-black">
+      <button className= { `${  false ? "bg-gray-400" : "bg-[#1ACF65]" } w-full rounded-[20px] text-white px-4 py-2  `}  >Start Meet</button>
+      <DropdownMenu />
     </div>
+  </div>
+  <div className="md:hidden  flex flex-row w-full justify-between p-4 h-auto bg-white  rounded-[20px] my-[5%] border">
+    <div className="w-[100px] rounded-[10px] bg-slate-200 p-[8px] h-[85px]">
+    <div className="h-full w-full bg-white rounded-[50px] "></div>
+
+    </div>
+    <div className="flex flex-col w-[40%] justify-between">
+    <div className=" text-start text-[24px] font-bold  border-solid border-2 border-black">{patient}</div>
+    <div className=" text-start border-solid border-2 border-black">{date}</div>
+  
+    </div>
+    
+    <div className="w-[50%] flex flex-row justify-center items-center text-start border-solid border-2 border-black">
+      <button className= { `${  false ? "bg-gray-400" : "bg-[#1ACF65]" } w-full rounded-[20px] text-white px-4 py-2  `}  >Start Meet</button>
+      <div className="hidden md:flex">  <DropdownMenu /></div>
+      <div className="flex md:hidden">     <DropdownMenuMobile /></div>
+   
+    
+    </div>
+  
+  </div>
+  
+  </>
+    
   );
 };
 

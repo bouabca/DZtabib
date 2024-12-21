@@ -23,10 +23,10 @@ const Nav: React.FC<NavProps> = ({ tabs = [] }) => { // Default value for tabs i
             key={tab} 
             href={`${basePath}/${tab.toLowerCase()}`} // Combining base path with tab
             passHref
-            className='w-[90%]'
+            className='w-[90%] hidden md:block'
           >
             <div
-              className={`text-[16px] lg:text-[24px] rounded-[12px] p-[7px] px-[25px] w-[320px] md:w-[100%] h-auto cursor-pointer transition-all duration-300 ${
+              className={`rounded-[12px] p-[7px] px-[25px] w-[320px] md:w-[100%] h-auto cursor-pointer transition-all duration-300 ${
                 isActive
                 ? "bg-blue-500 text-white scale-105"
                 : " text-black hover:scale-105 hover:bg-blue-100"
