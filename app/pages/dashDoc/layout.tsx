@@ -10,7 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body  >
         <div className="w-full h-full overflow-y-scroll overflow-x-hidden   flex md:flex-row flex-col">
           {/* Sidebar Section */}
-          <div className="w-screen  lg:text-[24px] md:w-[20%] overflow-x-visible   md:overflow-hidden md:overflow-y-scroll flex flex-col   md:gap-4 md:items-center   py-[20px] bg-slate-50 sidebar">
+          <div className="w-screen  lg:text-[24px] md:w-[20%] overflow-x-visible   md:overflow-hidden md:overflow-y-scroll flex flex-col   md:gap-4 md:items-center    bg-slate-50 sidebar">
             {/* Logo */}
           
 
