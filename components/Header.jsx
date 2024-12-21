@@ -4,13 +4,16 @@ import Link from "next/link";
 
 import './hover.css';
 import Image from "next/image";
+import DropdownImageMenu from "./Hamb"
 
 
 const Header = () => {
-
+  const links = ["Dashboard", "services", "About", "signup", "login"]; // Menu links
+  const imageSrc = "/svg/hamp.svg"; // Path to your menu image
+  const altText = "Menu Icon";
 
   return (
-    <div className="h-[88px] py-8 px-[7%] flex justify-center items-center w-full bg-white">
+    <div className="h-[88px]  z-20  py-8 px-[7%] flex justify-center items-center w-full bg-white">
     
         {/* Logo - Preloaded image for faster load */}
         <div   className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
@@ -34,9 +37,9 @@ const Header = () => {
      
 
         {/* Desktop Navigation */}
-        <div className="hidden mr-auto md:block">
+        <div className="hidden mr-auto lg:block">
         <ul className="menu-list  ">
-          {["Dashboard", "services", "About", "Contact"].map((menuItem, index) => (
+          {["Dashboard", "services", "about"].map((menuItem, index) => (
             <li key={index} className="menu-item">
               <a href={`pages/${menuItem}`} className="menu-link">
                 {menuItem}
@@ -44,6 +47,10 @@ const Header = () => {
             </li>
           ))}
         </ul>
+        </div>
+
+        <div className="lg:hidden flex ml-auto">  
+        <DropdownImageMenu links={links} imageSrc={imageSrc} altText={altText} />
         </div>
        
 

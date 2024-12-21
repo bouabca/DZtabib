@@ -1,7 +1,7 @@
 import React from "react";
 import DropdownMenu from "../docdashComp/dropdown";
 import DropdownMenuMobile from "../docdashComp/dropdownmobile"
-import Image from "next/image";
+
 
 interface AppointmentRowProps {
   id: string;
