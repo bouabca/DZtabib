@@ -28,7 +28,7 @@ const Apoitments = () => {
         onChange={(e) => setSearch(e.target.value)} // Update search input on change
       />
       <div className="overflow-x-scroll ">
-      <div className="p-4 m-4  rounded-[10px] overflow-y-visible   md:w-[1200px] lg:w-full  mx-auto    bg-white">
+      <div className="p-4 m-4  rounded-[10px] overflow-y-visible  lg:w-full  mx-auto    bg-white">
         
         <Dashhead></Dashhead>
 
