@@ -2,9 +2,14 @@
 import Image from "next/image";
 import Nav from "../../../components/nav"
 import Link from "next/link";
+import DropdownImageMenu from "@/components/Hamb";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const tabs = ["Notification", "appointments", "historique", "Profile"];
+  const tabs = ["notification", "appointments", "historique", "Profile"];
+
+  const links = ["notification", "appointments", "historique", "profile"]; // Menu links
+  const imageSrc = "/svg/hamp.svg"; // Path to your menu image
+  const altText = "Menu Icon";
   return (
     <html  lang="en">
       <body  >
@@ -15,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           
 
 
-            <div className="w-full h-[100px] flex justify-start px-2 lg:px-10  w-max-[80%] bg-slate-300">
+            <div className="w-full h-[100px] flex justify-start px-2 lg:px-10  w-max-[80%]">
             <Link className=" gap-2   w-max-[80%]  object-contain  flex justify-center items-center text-[24px] lg:text-[30px] font-bold" href={"/"}>
             <Image
                 src="/svg/logo.svg"
@@ -34,6 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 priority
               />
                  </Link>
+              <div className="md:hidden  flex ml-auto m-4 z-40">   <DropdownImageMenu links={links} imageSrc={imageSrc} altText={altText} />
+              </div>
+         
             </div>
               
 

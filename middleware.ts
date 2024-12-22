@@ -24,9 +24,23 @@ export function middleware(request: NextRequest) {
         url.pathname = '/pages'+ url.pathname; // Redirect to '/dash/notification'
         return NextResponse.redirect(url);
       }
+      
 
+      if(url.pathname === '/notification' || url.pathname === '/appointments' || url.pathname === '/historique' || url.pathname === '/profile' )
+        {
+          url.pathname = '/pages/dashDoc'+ url.pathname; // Redirect to '/dash/notification'
+          return NextResponse.redirect(url);
+        }
 
+        
+        
 
+        if(url.pathname === '/search'  )
+          {
+            url.pathname = '/pages/dashPat'+ url.pathname; // Redirect to '/dash/notification'
+            return NextResponse.redirect(url);
+          }
+          
 
   return NextResponse.next(); // Allow other routes to proceed as normal
 }

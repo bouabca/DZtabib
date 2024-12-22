@@ -13,7 +13,7 @@ const Header = () => {
   const altText = "Menu Icon";
 
   return (
-    <div className="h-[88px]  z-20  py-8 px-[7%] flex justify-center items-center w-full bg-white">
+    <div className="h-[88px] fixed z-20  py-8 px-[7%] flex justify-center items-center w-full bg-white">
     
         {/* Logo - Preloaded image for faster load */}
         <div   className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 

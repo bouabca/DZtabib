@@ -2,36 +2,46 @@
 import Image from "next/image";
 import Nav from "../../../components/nav"
 import Link from "next/link";
+import DropdownImageMenu from "@/components/Hamb";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const tabs = ["Search","notification", "appointments", "profile"];
+  const tabs = ["search","notification", "appointments", "profile"];
+
+  const links = ["notification", "appointments", "search", "profile"]; // Menu links
+  const imageSrc = "/svg/hamp.svg"; // Path to your menu image
+  const altText = "Menu Icon";
   return (
     <html  lang="en">
       <body  >
         <div className="w-full h-full overflow-y-scroll overflow-x-hidden   flex lg:flex-row flex-col">
           {/* Sidebar Section */}
-          <div className="w-screen  lg:text-[24px] lg:w-[20%] overflow-x-visible   lg:overflow-hidden lg:overflow-y-scroll flex flex-col   lg:gap-4 lg:items-center   py-[20px] bg-slate-50 sidebar">
+          <div className="w-screen  lg:text-[24px] lg:w-[20%] overflow-x-visible   lg:overflow-hidden lg:overflow-y-scroll flex flex-col   lg:gap-4 lg:items-center    bg-slate-50 sidebar">
             {/* Logo */}
           
 
-            <Link href={"/"}  className="gap-2 mr-auto flex justify-center items-center text-[30px] font-bold"> 
-              <Image 
-                src="/svg/logo.svg" 
-                alt="logo" 
-                width={60} 
-                height={60} 
-                priority // Ensures it loads faster (above-the-fold)
+            <div className="w-full h-[100px] flex justify-start px-2 lg:px-10  w-max-[80%] ">
+            <Link className=" gap-2   w-max-[80%]  object-contain  flex justify-center items-center text-[24px] lg:text-[30px] font-bold" href={"/"}>
+            <Image
+                src="/svg/logo.svg"
+                alt="logo"
+                className="w h-[100%] object-contain"
+                width={50}
+                height={50}
+                priority
               />
-                    <Image 
-            
-            src="/png/tabib.png" 
-            alt="logo" 
-            width={160} 
-            height={160} 
-            priority // Ensures it loads faster (above-the-fold)
-          />
-          
-        </Link>href={"/"}
+              <Image
+                src="/png/tabib.png"
+                alt="logo"
+                className=" h-[100%] object-contain"
+                width={140}
+                height={140}
+                priority
+              />
+                 </Link>
+              <div className="md:hidden  flex ml-auto m-4 z-40">   <DropdownImageMenu links={links} imageSrc={imageSrc} altText={altText} />
+              </div>
+         
+            </div>
 
     
          
