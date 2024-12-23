@@ -1,14 +1,19 @@
-"use client"
-import dynamic from 'next/dynamic'; // Import dynamic for map component
+"use client";
+import dynamic from "next/dynamic"; // Import dynamic for map component
 import "leaflet/dist/leaflet.css";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
+
+
+
 // Dynamically import the map to avoid hydration issues
-const Map = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
+import { useMapEvents } from 'react-leaflet'; 
+import { LeafletMouseEvent } from 'leaflet';
 
 const Profile: React.FC = () => {
   // State to handle inputs
@@ -32,10 +37,10 @@ const Profile: React.FC = () => {
     { name: "San Antonio", lat: 29.4241, lng: -98.4936 },
     { name: "San Diego", lat: 32.7157, lng: -117.1611 },
     { name: "Dallas", lat: 32.7767, lng: -96.7970 },
-    { name: "San Jose", lat: 37.3382, lng: -121.8863 }
+    { name: "San Jose", lat: 37.3382, lng: -121.8863 },
   ];
 
-  const selectedLocation = locations.find(loc => loc.name === location);
+  const selectedLocation = locations.find((loc) => loc.name === location);
 
   useEffect(() => {
     if (selectedLocation) {
@@ -73,30 +78,45 @@ const Profile: React.FC = () => {
     }
   };
 
+  // Function to handle map events using the hookimport { MouseEvent as LeafletMouseEvent } from 'leaflet'; /
+  const MapClickHandler = () => {
+    useMapEvents({
+      click(e: LeafletMouseEvent) { // Use the specific LeafletMouseEvent type for the event
+        const { lat, lng } = e.latlng; // Access latlng directly from the event
+        setLat(lat);
+        setLng(lng);
+      },
+    });
+  
+    return null; // This component doesn't need to render anything itself
+  };
+
+   
+
   return (
     <div className="w-full flex flex-col h-full bg-[#18A0FB]">
       <div className="flex flex-row justify-between items-center w-[80%] md:w-[500px] m-[20px] mx-auto">
         <div className="flex flex-col justify-center items-center text-white">
-          <Image src={"/svg/star.svg"} width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
+          <Image src="/svg/star.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
           <div className="text-[20px] font-bold">150 +</div>
           <div className="text-[16px]">Patient</div>
         </div>
 
         <div className="flex flex-col justify-center items-center text-white">
-          <Image src={"/svg/crown.svg"} width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
+          <Image src="/svg/crown.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
           <div className="text-[20px] font-bold">150 +</div>
           <div className="text-[16px]">Patient</div>
         </div>
 
         <div className="flex flex-col justify-center items-center text-white">
-          <Image src={"/svg/heart.svg"} width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
+          <Image src="/svg/heart.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
           <div className="text-[20px] font-bold">150 +</div>
           <div className="text-[16px]">Patient</div>
         </div>
       </div>
-      <Image src={"/png/doc.png"} width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
+      <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
 
-      <div className="h-[55%] w-full justify-center items-center flex flex-col lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px]  mt-auto">
+      <div className="h-[55%] w-full justify-center items-center flex flex-col lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
         <div className="w-[30%] p-4 bg-slate-200 flex-col justify-center items-center">
           {/* Location Select */}
           <div className="w-[90%] mx-auto">
@@ -115,26 +135,28 @@ const Profile: React.FC = () => {
               ))}
             </select>
             {selectedLocation && (
-  <div className="w-full h-[300px] mt-6">
-    <Map
-      key={`${lat},${lng}`}  // Use lat and lng to generate a unique key
-      center={[lat ?? 0, lng ?? 0]}
-      zoom={12}
-      style={{ width: '100%', height: '100%' }}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={[lat ?? 0, lng ?? 0]}>
-        <Popup>{selectedLocation.name}</Popup>
-      </Marker>
-    </Map>
-  </div>
-)}
-
+              <div className="w-full h-[300px] mt-6">
+                <MapContainer
+                  key={`${lat},${lng}`} // Use lat and lng to generate a unique key
+                  center={[lat ?? 0, lng ?? 0]}
+                  zoom={12}
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  />
+                  <Marker position={[lat ?? 0, lng ?? 0]}>
+                   
+                    <Popup>{selectedLocation.name}</Popup>
+                  </Marker>
+                  <MapClickHandler /> {/* Add map click handler here */}
+                </MapContainer>
+              </div>
+            )}
           </div>
         </div>
+
         <div className="w-[50%] bg-slate-200 mx-auto p-4 flex-col justify-center items-center">
           <div className="w-[90%] mx-auto">
             {/* Name input */}
@@ -198,8 +220,12 @@ const Profile: React.FC = () => {
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
               className="overflow-hidden flex flex-col justify-start items-start w-full h-full bg-black bg-cover bg-center"
-              style={{ backgroundImage: `url(${imagePreview})` }}
-            />
+              style={{ backgroundImage: `url(${imagePreview || URL.createObjectURL(certificate)})` }}
+            >
+              <div className="bg-black bg-opacity-50 w-full h-full flex justify-center items-center text-white">
+                <span>Certificate Image</span>
+              </div>
+            </div>
           )}
         </div>
       </div>
