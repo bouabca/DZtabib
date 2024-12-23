@@ -1,10 +1,11 @@
 // /components/NotificationItem.tsx
+import Image from "next/image";
 import React from "react";
 
 interface NotificationItemProps {
-  imgSrc: any;
-  message: any;
-  date: any;
+  imgSrc: string;
+  message: string;
+  date: string;
   viewed: boolean;
 }
 
@@ -12,7 +13,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ imgSrc, message, da
   return (
     <div className={`h-[84px] flex flex-row items-center   gap-4 p-4  ${viewed ? 'text-gray-400 bg-opacity-30  ' : 'text-[18px] font-bold  bg-opacity-80 '} rounded-[20px]  bg-white  cursor-pointer hover:bg-[#18A0FB] hover:bg-opacity-80 hover:text-white transition-colors duration-300 ease-in-out `}
     >
-     <img
+     <Image
+        width={100}
+        height={100}
         src={imgSrc}
         alt="Notification"
         className="w-12 h-12 rounded-full"
