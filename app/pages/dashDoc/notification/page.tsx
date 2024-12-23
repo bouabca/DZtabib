@@ -17,8 +17,8 @@ const Notification = () => {
   ];
 
   return (
-    <div className="relative w-[90%] mt-[5%] mx-auto p-4 flex flex-col">
-      <div className="absolute inset-0 bg-[#18A0FB] bg-opacity-20 blur-[20px] rounded-lg"></div>
+    <div className="relative md:w-[90%] mt-[5%] mx-auto md:p-4 flex flex-col">
+      <div className="absolute inset-0 md:bg-[#18A0FB] md:bg-opacity-20 blur-[20px] rounded-lg"></div>
       <div className="relative p-8 z-10 flex flex-col gap-8">
         <div className="flex flex-col  gap-8">
           <h2 className="text-2xl  font-bold">Nouveau</h2>

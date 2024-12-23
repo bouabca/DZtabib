@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body  >
         <div className="w-full h-full overflow-y-scroll overflow-x-hidden   flex lg:flex-row flex-col">
           {/* Sidebar Section */}
-          <div className="w-screen  lg:text-[24px] lg:w-[20%] overflow-x-visible   lg:overflow-hidden lg:overflow-y-scroll flex flex-col   lg:gap-4 lg:items-center    bg-slate-50 sidebar">
+          <div className="w-screen fixed  md:relative z-50 lg:text-[24px] lg:w-[20%] overflow-x-visible   lg:overflow-hidden lg:overflow-y-scroll flex flex-col   lg:gap-4 lg:items-center    bg-slate-50 sidebar">
             {/* Logo */}
           
 
@@ -69,12 +69,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* Main Dashboard Section */}
-          <div className=" w-screen lg:w-[80%]  lg:h-full bg-[#F5F5F6] flex flex-col justify-center items-center">
+          <div className=" w-screen lg:w-[80%] mt-[100px] md:mt-0  lg:h-full bg-[#F5F5F6] flex flex-col justify-center items-center">
             {/* Top Search Bar */}
             <div className="h-[80px] w-full bg-white border flex items-center justify-start ">
               <div className="flex px-8 flex-row-reverse justify-center w-full  lg:flex-col lg:gap-0 text-start lg:justify-start  items:center gap-4 lg:items-start">
                  <div className="text-[34px] lg:text-[24px] font-bold">Dashboard</div>
-                 <div  className="text-[34px]  lg:text-[20px] font-bold text-blue-500" >Doctor</div>
+                 <div  className="text-[34px] lg:text-[20px] font-bold text-blue-500" >Doctor</div>
                  </div>
           
             </div>
