@@ -110,7 +110,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col h-full bg-[#18A0FB]">
-      <div className="flex flex-row justify-between items-center w-[80%] md:w-[500px] m-[20px] mx-auto">
+      <div className="flex flex-row justify-between items-center w-[80%] lg:w-[500px] m-[20px] mx-auto">
         <div className="flex flex-col justify-center items-center text-white">
           <Image src="/svg/star.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
           <div className="text-[20px] font-bold">150 +</div>
@@ -131,8 +131,8 @@ const Profile: React.FC = () => {
       </div>
       <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
 
-      <div className="h-[55%] w-full justify-center items-center flex flex-col lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
-        <div className="w-[30%]   h-full flex-col justify-center items-center">
+      <div className=" lg:h-[55%] w-full justify-center items-center flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
+        <div className="w-full lg:w-[30%]   h-full flex-col justify-center items-center">
           {/* Location Select */}
           <div className="w-[90%] flex flex-col justify-start items-start mx-auto h-full">
             <label htmlFor="location" className="text-black font-semibold">Location</label>
@@ -172,7 +172,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-[50%] mx-auto  flex-col justify-center h-full  items-center">
+        <div className="w-full lg:w-[50%] mx-auto  flex-col justify-center h-[500px] lg:h-full  items-center">
           <div className="w-[90%] mx-auto">
             {/* Name input */}
             <label htmlFor="name" className="text-black font-semibold">Name</label>
@@ -218,7 +218,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-[25%] overflow-hidden h-full flex flex-col justify-start items-start border-2 border-dashed border-gray-400 rounded-lg">
+        <div className="w-full  lg:w-[25%] overflow-hidden h-[1000px] lg:h-full flex flex-col justify-start items-start border-2 border-dashed border-gray-400 rounded-lg">
           {!certificate ? (
             <div
               className="w-[90%] mx-auto my-auto h-[150px] flex flex-col justify-center items-center border-2 border-dashed border-gray-400 rounded-lg bg-white cursor-pointer"
@@ -234,7 +234,7 @@ const Profile: React.FC = () => {
               />
               <span className="text-gray-500 text-lg">Drag & Drop your certificate here</span>
               <span className="text-gray-400 text-sm">or</span>
-              <button className="text-blue-500 text-sm">Browse Files</button>
+              <button onClick={handleFileChange} className="text-blue-500 text-sm">Browse Files</button>
             </div>
           ) : (
             <div
