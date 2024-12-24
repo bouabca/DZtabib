@@ -234,7 +234,7 @@ const Profile: React.FC = () => {
               />
               <span className="text-gray-500 text-lg">Drag & Drop your certificate here</span>
               <span className="text-gray-400 text-sm">or</span>
-              <button onClick={handleFileChange} className="text-blue-500 text-sm">Browse Files</button>
+              <button className="text-blue-500 text-sm">Browse Files</button>
             </div>
           ) : (
             <div
