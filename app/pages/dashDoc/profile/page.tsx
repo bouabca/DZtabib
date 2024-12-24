@@ -28,16 +28,31 @@ const Profile: React.FC = () => {
 
   // Predefined list of locations (e.g., cities or regions)
   const locations = [
-    { name: "New York", lat: 40.7128, lng: -74.0060 },
-    { name: "Los Angeles", lat: 34.0522, lng: -118.2437 },
-    { name: "Chicago", lat: 41.8781, lng: -87.6298 },
-    { name: "Houston", lat: 29.7604, lng: -95.3698 },
-    { name: "Phoenix", lat: 33.4484, lng: -112.0740 },
-    { name: "Philadelphia", lat: 39.9526, lng: -75.1652 },
-    { name: "San Antonio", lat: 29.4241, lng: -98.4936 },
-    { name: "San Diego", lat: 32.7157, lng: -117.1611 },
-    { name: "Dallas", lat: 32.7767, lng: -96.7970 },
-    { name: "San Jose", lat: 37.3382, lng: -121.8863 },
+    { name: "Bejaia", lat: 36.7533, lng: 5.0667 },  
+    { name: "Alger", lat: 36.7538, lng: 3.0588 },        // Algiers
+    { name: "Oran", lat: 35.6992, lng: -0.6333 },        // Oran
+    { name: "Constantine", lat: 36.3650, lng: 6.6149 },   // Constantine
+    { name: "Annaba", lat: 36.8663, lng: 7.7639 },        // Annaba
+    { name: "Tlemcen", lat: 34.8885, lng: -1.3165 },      // Tlemcen
+    { name: "Blida", lat: 36.4800, lng: 2.8293 },        // Blida
+    { name: "Batna", lat: 35.5612, lng: 6.1782 },         // Batna
+    { name: "Sétif", lat: 36.1833, lng: 5.4167 },         // Sétif
+    { name: "Béjaïa", lat: 36.7533, lng: 5.0667 },        // Béjaïa
+    { name: "Chlef", lat: 36.1667, lng: 1.3333 }, 
+  
+  ];
+
+  const specialties = [
+    "Cardiologist",
+    "Dermatologist",
+    "Pediatrician",
+    "Orthopedic Surgeon",
+    "Neurologist",
+    "Psychiatrist",
+    "Gynecologist",
+    "General Practitioner",
+    "Dentist",
+    "Ophthalmologist"
   ];
 
   const selectedLocation = locations.find((loc) => loc.name === location);
@@ -117,15 +132,15 @@ const Profile: React.FC = () => {
       <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
 
       <div className="h-[55%] w-full justify-center items-center flex flex-col lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
-        <div className="w-[30%] p-4 bg-slate-200 flex-col justify-center items-center">
+        <div className="w-[30%]   h-full flex-col justify-center items-center">
           {/* Location Select */}
-          <div className="w-[90%] mx-auto">
+          <div className="w-[90%] flex flex-col justify-start items-start mx-auto h-full">
             <label htmlFor="location" className="text-black font-semibold">Location</label>
             <select
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none"
+              className="w-full bg-white border border-light-gray rounded-[5px]  p-4 text-black focus:outline-none"
             >
               <option value="">Select Location</option>
               {locations.map((loc) => (
@@ -135,12 +150,12 @@ const Profile: React.FC = () => {
               ))}
             </select>
             {selectedLocation && (
-              <div className="w-full h-[300px] mt-6">
+              <div className="w-full h-[82%]">
                 <MapContainer
                   key={`${lat},${lng}`} // Use lat and lng to generate a unique key
                   center={[lat ?? 0, lng ?? 0]}
                   zoom={12}
-                  style={{ width: "100%", height: "100%" }}
+                  className="w-full h-full"
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -157,7 +172,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-[50%] bg-slate-200 mx-auto p-4 flex-col justify-center items-center">
+        <div className="w-[50%] mx-auto  flex-col justify-center h-full  items-center">
           <div className="w-[90%] mx-auto">
             {/* Name input */}
             <label htmlFor="name" className="text-black font-semibold">Name</label>
@@ -171,17 +186,23 @@ const Profile: React.FC = () => {
             />
           </div>
 
+      
           <div className="w-[90%] mx-auto">
-            {/* Specialty input */}
+            {/* Specialty select */}
             <label htmlFor="specialty" className="text-black font-semibold">Specialty</label>
-            <input
+            <select
               id="specialty"
-              type="text"
               value={specialty}
               onChange={(e) => setSpecialty(e.target.value)}
-              placeholder="Enter specialty"
               className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none"
-            />
+            >
+              <option value="">Select Specialty</option>
+              {specialties.map((spec) => (
+                <option key={spec} value={spec}>
+                  {spec}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="w-[90%] mx-auto">
@@ -192,12 +213,12 @@ const Profile: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Write about the doctor"
-              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none h-[150px]"
+              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none h-[200px]"
             />
           </div>
         </div>
 
-        <div className="w-[25%] overflow-hidden bg-slate-200 h-full flex flex-col justify-start items-start border-2 border-dashed border-gray-400 rounded-lg">
+        <div className="w-[25%] overflow-hidden h-full flex flex-col justify-start items-start border-2 border-dashed border-gray-400 rounded-lg">
           {!certificate ? (
             <div
               className="w-[90%] mx-auto my-auto h-[150px] flex flex-col justify-center items-center border-2 border-dashed border-gray-400 rounded-lg bg-white cursor-pointer"
@@ -222,9 +243,7 @@ const Profile: React.FC = () => {
               className="overflow-hidden flex flex-col justify-start items-start w-full h-full bg-black bg-cover bg-center"
               style={{ backgroundImage: `url(${imagePreview || URL.createObjectURL(certificate)})` }}
             >
-              <div className="bg-black bg-opacity-50 w-full h-full flex justify-center items-center text-white">
-                <span>Certificate Image</span>
-              </div>
+            
             </div>
           )}
         </div>
