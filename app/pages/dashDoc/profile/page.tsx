@@ -55,6 +55,30 @@ const Profile: React.FC = () => {
     "Ophthalmologist"
   ];
 
+  const comments = [
+    {
+      id: 1,
+      profilePic: '/png/doc.png', // Replace with the actual image URL
+      username: 'John Doe',
+      rating: 4,
+      comment: 'This is an amazing product! Highly recommended.',
+    },
+    {
+      id: 2,
+      profilePic: '/png/doc.png', // Replace with the actual image URL
+      username: 'Jane Smith',
+      rating: 5,
+      comment: 'Absolutely love this! Will buy again.',
+    },
+    {
+      id: 3,
+      profilePic: '/png/doc.png', // Replace with the actual image URL
+      username: 'Mike Johnson',
+      rating: 3,
+      comment: 'It s okay, but I ve seen better.',
+    },
+  ];
+
   const selectedLocation = locations.find((loc) => loc.name === location);
 
   useEffect(() => {
@@ -247,7 +271,40 @@ const Profile: React.FC = () => {
             </div>
           )}
         </div>
+        
       </div>
+      <div className="w-full h-auto px-4 bg-[#F5F5F6]"> 
+      {comments.map(({ id, profilePic, username, rating, comment }) => (
+        <div
+          key={id}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '15px',
+            padding: '10px',
+   
+            borderRadius: '8px',
+            background: '#f9f9f9',
+          }}
+        >
+          <Image
+          height={100}
+          width={100}
+            src={profilePic}
+            alt={`${username}'s profile`}
+            className="mx-2"
+          />
+          <div>
+            <div style={{ fontWeight: 'bold' }}>{username}</div>
+            <div style={{ color: '#ffd700'  ,fontSize: '25px'}}>
+              {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+            </div>
+            <div style={{ fontSize: '14px', color: '#555' }}>{comment}</div>
+          </div>
+        </div>
+      ))}
+      </div>
+      
     </div>
   );
 };
