@@ -23,12 +23,12 @@ const Apoitments = () => {
       <input
         type="text"
         placeholder="Search..."
-        className="w-[90%] lg:w-[300px] h-[40px] rounded-lg m-8 bg-gray-200 text-gray-600 placeholder-gray-500 px-4 focus:outline-none focus:ring-2 mr-[8%] focus:ring-gray-400"
+        className="w-[90%] md:w-[300px] h-[40px] rounded-lg m-8 bg-gray-200 text-gray-600 placeholder-gray-500 px-4 focus:outline-none focus:ring-2 mr-[8%] focus:ring-gray-400"
         value={search}
         onChange={(e) => setSearch(e.target.value)} // Update search input on change
       />
       <div className="overflow-x-scroll ">
-      <div className="p-4 m-4  rounded-[10px] overflow-y-visibl lg:w-full  mx-auto    bg-white">
+      <div className="p-4 m-4  rounded-[10px] overflow-y-visible  lg:w-full  mx-auto    bg-white">
         
         <Dashhead></Dashhead>
 

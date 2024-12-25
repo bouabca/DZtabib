@@ -80,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* Dynamic Content */}
-            <div className=" w-[100%] overflow-scroll  top-0  h-auto lg:h-screen">
+            <div className=" w-full overflow-scroll  top-0  h-auto lg:h-screen">
 
               {children}
             </div>
