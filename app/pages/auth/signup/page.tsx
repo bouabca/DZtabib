@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import RoleSelection from '../../../../components/authpageComp/RoleSelection';
 import InputFields from '../../../../components/authpageComp/InputFields';
 import Buttons from '../../../../components/authpageComp/Buttons';
+import { useAuth } from '@/context/AuthContext';
+export default function Signup() { 
 
-export default function Signup() {
+  const {userdata , setuserdata } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -17,14 +19,11 @@ export default function Signup() {
     diplomaCode: '', // New field
   
   });
-
   const [error, setError] = useState('');
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
   const handleUserTypeChange = (type: string) => {
     setFormData({ ...formData, userType: type });
   };
@@ -87,6 +86,7 @@ export default function Signup() {
       });
 
       const data = await response.json();
+      setuserdata(data)
       console.log('Response from server:', data);
     } catch (error) {
       console.log(firstName, lastName, email, birthDate, password, userType, speciality, diplomaCode);

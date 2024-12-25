@@ -72,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="h-[80px] w-full bg-white border flex items-center justify-start ">
               <div className="flex px-8 flex-row-reverse justify-center w-full  lg:flex-col lg:gap-0 text-start lg:justify-start  items:center gap-4 lg:items-start">
                  <div className="text-[34px] lg:text-[24px] font-bold">Dashboard</div>
-                 <div  className="text-[34px]  lg:text-[20px] font-bold text-blue-500" >Doctor</div>
+                 <div  className="text-[34px]  lg:text-[20px] font-bold text-blue-500" >Patient</div>
                  </div>
           
             </div>

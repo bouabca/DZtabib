@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import LoginInputFields from '../../../../components/authpageComp/logininputFields';
 import Buttons from '../../../../components/authpageComp/loginButton';
 import { useAuth } from '../../../../context/AuthContext';
@@ -11,9 +11,8 @@ export default function Login() {
     email: '',
     password: '',
   });
-  const { setToken } = useAuth();
+  const { setToken ,token  ,userdata} = useAuth();
 
-console.log(router)
   const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,18 +22,20 @@ console.log(router)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("=====================================")
+    console.log(token)
+    console.log(userdata)
+    console.log("=====================================")
 
     const { email, password } = formData;
     // console.log('https://dztabib.onrender.com/api/auth/login/');
-
-    // Check if both fields are filled
     if (!email || !password) {
       setError('Please fill out both fields.');
       return;
     }
     setError('');
-    // Fetch request with POST method to handle login
     try { 
+      console.log("URL");
       console.log(process.env.URL);
       const response = await fetch(`https://dztabib.onrender.com/api/auth/login/`, {
         method: 'POST',
@@ -54,7 +55,6 @@ console.log(router)
         router.push('/dashDoc/appointments'); // Redirect to home page
         // Handle successful login (e.g., redirect to another page)
       } else {
-        // Handle error (e.g., show error message)
         setError('Invalid email or password.');
       }
     } catch (error) {
