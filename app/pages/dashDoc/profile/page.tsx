@@ -14,12 +14,26 @@ const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), 
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 import { useMapEvents } from 'react-leaflet'; 
 import { LeafletMouseEvent } from 'leaflet';
+import Link from "next/link";
 
 const Profile: React.FC = () => {
   // State to handle inputs
-  const [name, setName] = useState<string>("");
-  const [specialty, setSpecialty] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const specialties = [
+    "Cardiologist",
+    "Dermatologist",
+    "Pediatrician",
+    "Orthopedic Surgeon",
+    "Neurologist",
+    "Psychiatrist",
+    "Gynecologist",
+    "General Practitioner",
+    "Dentist",
+    "Ophthalmologist"
+  ];
+
+  const [name, setName] = useState<string>("geek ");
+  const [specialty, setSpecialty] = useState<string>(specialties[0]);
+  const [description, setDescription] = useState<string>("The second best doctor in the algeria after ramy");
   const [certificate, setCertificate] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState<string>("");
@@ -42,18 +56,7 @@ const Profile: React.FC = () => {
   
   ];
 
-  const specialties = [
-    "Cardiologist",
-    "Dermatologist",
-    "Pediatrician",
-    "Orthopedic Surgeon",
-    "Neurologist",
-    "Psychiatrist",
-    "Gynecologist",
-    "General Practitioner",
-    "Dentist",
-    "Ophthalmologist"
-  ];
+
 
   const comments = [
     {
@@ -130,11 +133,46 @@ const Profile: React.FC = () => {
     return null; // This component doesn't need to render anything itself
   };
 
+
+  const handleButtonClick = async () => {
+    if (!name || !specialty || !description || !location || lat === null || lng === null || !certificate) {
+      console.error("All fields are required");
+      return;
+    }
+  
+    try {
+      // Prepare the form data
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("specialty", specialty);
+      formData.append("description", description);
+      formData.append("location", location);
+      formData.append("lat", lat.toString());
+      formData.append("lng", lng.toString());
+      formData.append("certificate", certificate);
+  
+      const response = await fetch("https://your-api-endpoint.com/api/resource", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Success:", data);
+      } else {
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+  
    
 
   return (
     <div className="w-full flex flex-col h-full bg-[#18A0FB]">
-      <div className="flex flex-row justify-between items-center w-[80%] lg:w-[500px] m-[20px] mx-auto">
+  
+      <div className="flex flex-row justify-between items-center w-[80%] lg:w-[500px]  mx-auto">
         <div className="flex flex-col justify-center items-center text-white">
           <Image src="/svg/star.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
           <div className="text-[20px] font-bold">150 +</div>
@@ -153,8 +191,24 @@ const Profile: React.FC = () => {
           <div className="text-[16px]">Patient</div>
         </div>
       </div>
-      <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
 
+      <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
+      <div className="flex flex-col md:flex-row">
+
+      <Link href={'profilesettings'}
+        
+          className="bg-white w-[90%] md:w-[200px] flex justify-center  mx-auto mb-4   md:m-4 md:ml-auto text-[#18A0FB] font-semibold py-2 px-4 rounded-[20px] border border-blue-500 hover:bg-blue-100"
+        >
+           Profile setings
+        </Link>
+      <button
+          onClick={handleButtonClick}
+          className="bg-white w-[90%] md:w-[200px] mx-auto mb-4  md:m-4 md:mr-[4%]  text-[#18A0FB] font-semibold py-2 px-4 rounded-[20px] border border-blue-500 hover:bg-blue-100"
+        >
+       Save
+        </button>
+      </div>
+   
       <div className=" lg:h-[55%] w-full justify-center items-center flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
         <div className="w-full lg:w-[30%]   h-full flex-col justify-center items-center">
           {/* Location Select */}

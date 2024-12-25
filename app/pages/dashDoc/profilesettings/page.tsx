@@ -75,9 +75,28 @@ const ProfilePage = () => {
             />
           </div>
 
- 
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Experience:</label>
+            <input
+              type="text"
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              className="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-       
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Language:</label>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="English">English</option>
+              <option value="French">French</option>
+              <option value="Spanish">Spanish</option>
+            </select>
+          </div>
         </div>
 
         <div className="flex  justify-start gap-4 mt-8">
