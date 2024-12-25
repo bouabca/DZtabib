@@ -8,8 +8,7 @@ const ProfilePage = () => {
   const [email, setEmail] = useState('0rwad.nadam0@gmail.com');
   const [password, setPassword] = useState('**********');
   const [birthday, setBirthday] = useState('2002-08-09');
-  const [experience, setExperience] = useState('5 years');
-  const [language, setLanguage] = useState('English');
+
   const router = useRouter();
   return (
   
