@@ -6,7 +6,7 @@ import Buttons from '../../../../components/authpageComp/Buttons';
 import { useAuth } from '@/context/AuthContext';
 export default function Signup() { 
 
-  const {userdata , setuserdata } = useAuth();
+  const {userdata ,setToken , setuserdata } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,7 +30,6 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     // Check if all fields are filled
     const {
       firstName,
@@ -56,43 +55,97 @@ export default function Signup() {
       !diplomaCode   // Check if diplomaCode is filled
     ) {
       setError('Please fill out all fields.');
-      return;
+      // return;
     }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
-      return;
+      // return;
     }
 
     setError('');
 
     // Fetch request with POST method
     try {
-      const response = await fetch('/api/create-account', {
+      const response = await fetch('https://dztabib.onrender.com/auth/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          birthDate,
-          password,
-          userType,
-          speciality, // Include speciality in the body
-          diplomaCode, // Include diplomaCode in the body
+            email ,
+            username: email,
+            password,
+           
         }),
+          //             firstName,
+          //          lastName,
+          //           email,
+          // birthDate,
+          // password,
+          // userType,
+          // speciality, // Include speciality in the body
+          // diplomaCode, // Include diplomaCode in the body
       });
 
-      const data = await response.json();
-      setuserdata(data)
-      console.log('Response from server:', data);
+    
+
+      const userData = await response.json();
+      setuserdata(userData)
+      console.log('Response from server:', userdata);
+      setToken(userData.access)
+      console.log('User creation response:', userData);
+    if(userData.access){
+      const accessToken = userData.access ;
+    if(userType === 'doctor'){
+      // fetch request for doctor
+      const doctorResponse = await fetch('https://dztabib.onrender.com/auth/doctors/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${accessToken}` ,},
+          body: JSON.stringify({
+           first_name: firstName,
+            last_name: lastName,
+            date_of_birth: birthDate,
+            speciality,
+            diploma_code: diplomaCode,
+          }) })
+          if (!doctorResponse.ok) {
+            throw new Error('Failed to create doctor');
+          }
+
+          const doctorData = await doctorResponse.json();
+          console.log('Doctor creation response:', doctorData);
+        }else if(userType === 'patient'){
+          const patientResponse = await fetch('https://dztabib.onrender.com/auth/patient/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `JWT ${accessToken}` ,},
+              body: JSON.stringify({
+               first_name: firstName,
+                last_name: lastName,
+                birth_date: birthDate,
+              }) })
+              if (!patientResponse.ok) {
+                throw new Error('Failed to create patient');
+              }
+              const patientData = await patientResponse.json();
+              console.log('Patient creation response:', patientData);
+
+            }
+        } 
+
     } catch (error) {
-      console.log(firstName, lastName, email, birthDate, password, userType, speciality, diplomaCode);
+      // console.log(firstName, lastName, email, birthDate, password, userType, speciality, diplomaCode);
       console.error('Error:', error);
     }
   };
+
+
+
+
 
   return (
     <div className="mx-auto w-full flex flex-col justify-center items-center py-10 px-4">
@@ -122,8 +175,10 @@ export default function Signup() {
         {/* Error Message */}
         {error && <div className="text-red-500 text-sm">{error}</div>}
 
+<button onClick={handleSubmit}>Handel submit </button>
+
         {/* Buttons */}
-        <Buttons />
+        <Buttons  handleSubmit={handleSubmit}/>
       </form>
       <div className="text-[20px] text-center text-gray-600 mt-4">
         Already have an account?{' '}

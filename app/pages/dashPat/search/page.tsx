@@ -1,6 +1,6 @@
 "use client"
 // /pages/dash/notification.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import DoctorCard from "../../../../components/patientDash/DoctorCard"
 import { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
@@ -9,144 +9,65 @@ import { FaGratipay } from "react-icons/fa";
 import { MdPriceChange } from "react-icons/md";
 
 
-
+interface Doctor {
+  id: string;
+  DoctorName: string;
+  image: string;
+  location: string;
+  speciality: string;
+  rate: number;
+  date: string;
+  price: string;
+}
 const Search = () => {
-  const [doctors, setDoctors] = useState([
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna el zouhour",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 4,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes laidani",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna el zouhour",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 4,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes laidani",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna el zouhour",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 4,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes laidani",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    },
-    {
-      "rate": 5,
-      "image": "/png/doc.png",
-      "DoctorName": "Younes Djouza",
-      "location": "Batna",
-      "speciality": "Catalogue",
-      "date": "2004-04-04"
-    }
-  ]);
+
+
+const [isLoading , setIsLoading] = useState(true);
+const [isError , setIsError] = useState(false); 
+const [isSuccess , setIsSuccess] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedRating, setSelectedRating] = useState("")
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
 
-  
+ const fetchDoctors = async () => {
+  try{
+    const res = await fetch("https://672ddda3fd89797156440765.mockapi.io/Tabib/api/doctors/");
+    if(!res.ok){
+      throw new Error("Error fetching doctors")
+    }
+    const data = await res.json();
+    console.log("Fetched doctors:", data);
+ return data;
+
+  }catch(error){
+    console.log("Error fetching doctors ")
+    console.log(error)
+    return []
+  }
+ }
+
+ useEffect(() => {
+  const getDoctors = async () => {
+    setIsLoading(true);
+    setIsError(false);
+    setIsSuccess(false);
+    const doctorsFromServer = await fetchDoctors();
+    if(doctorsFromServer.length > 0){
+setIsSuccess(true);
+      setDoctors(doctorsFromServer);
+    }
+    else{
+      setIsError(true);
+    }
+    setIsLoading(false);
+
+  };
+  getDoctors();
+}, []);
+
+
   const filteredDoctors = doctors.filter((doctor) => {
     return (
       doctor.DoctorName?.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -159,9 +80,7 @@ const Search = () => {
   return (
     <div>
       <div className="flex items-center my-4 justify-between flex-col md:flex-row  gap-4">
-{/*  */}
-      <div className="relative w-full md:w-fit">
-        
+      <div className="relative w-full md:w-fit">   
           <input
            value={searchTerm}
            onChange={(e) => setSearchTerm(e.target.value)} 
@@ -219,10 +138,15 @@ const Search = () => {
       </div>
 {/* Doctors  */}
 <h1 className="text-3xl font-bold">Doctors : </h1>
+{isLoading && <p>Loading...</p>}
+{isError && <p>Error fetching doctors. Please try again later.</p>}
+{isSuccess && (
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 lg:gap-8">
       {filteredDoctors.map((doctor, index) => (
           <DoctorCard
             key={index}
+            id= {doctor.id}
             rate={doctor.rate}
             image={doctor.image}
             DoctorName={doctor.DoctorName}
@@ -231,10 +155,8 @@ const Search = () => {
             date={doctor.date}
           />
         ))}
-      
- 
-
      </div>
+)}
     </div>
   );
 };
