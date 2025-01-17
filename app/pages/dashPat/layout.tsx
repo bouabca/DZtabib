@@ -5,9 +5,9 @@ import Link from "next/link";
 import DropdownImageMenu from "@/components/Hamb";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const tabs = ["search","notification", "appointments", "profile"];
+  const tabs = ["search","notification", "chat","appointments", "profile"];
 
-  const links = ["notification", "appointments", "search", "profile"]; // Menu links
+  const links = ["notification", "appointments", "chat","search", "profile"]; // Menu links
   const imageSrc = "/svg/hamp.svg"; // Path to your menu image
   const altText = "Menu Icon";
   return (
