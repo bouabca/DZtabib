@@ -89,27 +89,27 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
       {/* First and Last Name */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full">
-          <label className="text-gray-700 font-medium">First Name</label>
+          <label className="text-gray-700 font-medium text-[24px]">First Name</label>
           <input
             type="text"
             name="firstName"
             placeholder="First Name"
             value={formData.firstName}
             onChange={handleInputChangeWithValidation}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
         </div>
 
         <div className="w-full">
-          <label className="text-gray-700 font-medium">Last Name</label>
+          <label className="text-gray-700 font-medium text-[24px]">Last Name</label>
           <input
             type="text"
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
             onChange={handleInputChangeWithValidation}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
         </div>
@@ -118,26 +118,26 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
       {/* Email and Birth Date */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full">
-          <label className="text-gray-700 font-medium">Email</label>
+          <label className="text-gray-700 font-medium text-[24px]">Email</label>
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleInputChangeWithValidation}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
         <div className="w-full">
-          <label className="text-gray-700 font-medium">Birth Date</label>
+          <label className="text-gray-700 font-medium text-[24px]">Birth Date</label>
           <input
             type="date"
             name="birthDate"
             value={formData.birthDate}
             onChange={handleInputChange}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
         </div>
       </div>
@@ -148,26 +148,26 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
         
         <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full">
-          <label className="text-gray-700 font-medium">Speciality</label>
+          <label className="text-gray-700 font-medium text-[24px]">Speciality</label>
           <input
             type="text"
             name="speciality"
             placeholder="Speciality"
             value={formData.speciality}
             onChange={handleInputChange}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
         </div>
 
         <div className="w-full">
-          <label className="text-gray-700 font-medium">Diploma Code</label>
+          <label className="text-gray-700 font-medium text-[24px]">Diploma Code</label>
           <input
             type="text"
             name="diplomaCode"
             placeholder="Diploma Code"
             value={formData.diplomaCode}
             onChange={handleInputChange}
-            className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+            className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
           />
         </div>
       </div>
@@ -179,7 +179,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
       {/* Password and Confirm Password */}
       <div className="w-full gap-4 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full relative">
-          <label className="text-gray-700 font-medium">Password</label>
+          <label className="text-gray-700 font-medium text-[24px]">Password</label>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -187,7 +187,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
               placeholder="Password"
               value={formData.password}
               onChange={handleInputChangeWithValidation}
-              className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+              className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
             />
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -200,7 +200,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
         </div>
 
         <div className="w-full relative">
-          <label className="text-gray-700 font-medium">Confirm Password</label>
+          <label className="text-gray-700 font-medium text-[24px]">Confirm Password</label>
           <div className="relative">
             <input
               type={showConfirmPassword ? 'text' : 'password'}
@@ -208,7 +208,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleInputChangeWithValidation}
-              className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+              className="w-full h-12 px-4 py-2 border text-[20px] border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
             />
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -219,6 +219,8 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
           </div>
           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
         </div>
+
+        
       </div>
 
       {/* Remember Me */}
@@ -227,12 +229,12 @@ const InputFields: React.FC<InputFieldsProps> = ({ formData,type, handleInputCha
           type="checkbox"
           checked={rememberMe}
           onChange={(e) => setRememberMe(e.target.checked)}
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          className="w-5 h-5 text-blue-600 border-gray-300 mt-1 cursor-pointer rounded focus:ring-blue-500"
         />
-        <label className="text-gray-700">Remember Me</label>
+        <label onClick={()=> setRememberMe(!rememberMe)} className="text-[20px] cursor-pointer hover:text-blue-400 duration-100 ease-in text-gray-700">Remember Me</label>
       </div>
     </div>
-  );
+  );  
 };
 
 export default InputFields;

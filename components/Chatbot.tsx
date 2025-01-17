@@ -1,24 +1,48 @@
-// pages/index.tsx
+import { useState, useEffect, useRef, FormEvent } from 'react';
 
-import { useState, FormEvent } from 'react';
+export default function Chatbot() {
+  const [prompt, setPrompt] = useState<string>(''); 
+  const [conversation, setConversation] = useState<string[]>([]); 
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const chatContainerRef = useRef<HTMLDivElement>(null); // Reference to the chat container
 
-console.log(process.env.GOOGLE_API_KEY)
+  // Scroll to the bottom when the conversation updates
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [conversation]);
 
-export default function Home() {
-  // Define types for the state variables
-  const [prompt, setPrompt] = useState<string>(''); // 'prompt' is a string
-  const [response, setResponse] = useState<string>(''); // 'response' is a string
-  const [conversation, setConversation] = useState<string[]>([]); // conversation history
+  const handleTypingEffect = (fullResponse: string) => {
+    let currentText = '';
+    const typingSpeed = 20; // Adjust typing speed (ms per character)
 
-  // Handle form submission with type for the event
+    const interval = setInterval(() => {
+      if (currentText.length < fullResponse.length) {
+        currentText += fullResponse[currentText.length];
+        setConversation((prevConversation) => {
+          const updatedConversation = [...prevConversation];
+          updatedConversation[updatedConversation.length - 1] = `AI: ${currentText}`;
+          return updatedConversation;
+        });
+      } else {
+        clearInterval(interval);
+        setLoading(false); // Typing complete
+      }
+    }, typingSpeed);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Add the user message to the conversation
-    setConversation((prevConversation) => [...prevConversation, `User: ${prompt}`]);
 
-    // Make the POST request to the API route
+    setConversation((prevConversation) => [
+      ...prevConversation,
+      `User: ${prompt}`,
+      'AI: ...' // Placeholder for typing animation
+    ]);
+    setLoading(true);
+
     const res = await fetch('/pages/api', {
       method: 'POST',
       headers: {
@@ -28,119 +52,69 @@ export default function Home() {
     });
 
     const data = await res.json();
-    
-    // Check for the presence of 'text' and update the response accordingly
+
     if (data.text) {
-      setResponse(data.text);
-      setConversation(data.conversation); // Update conversation with AI's response
+      handleTypingEffect(data.text); // Trigger typing effect
     } else {
-      setResponse('Error: ' + data.error);
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        `AI: Error: ${data.error}`,
+      ]);
+      setLoading(false);
     }
 
-    // Clear the prompt input field after submission
     setPrompt('');
   };
 
   return (
-    <div className="chat-container">
-      <h1>AI Chatbot</h1>
-      
-      <div className="chat-box">
-        {conversation.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.startsWith("User") ? "user-message" : "ai-message"}
-          >
-            {msg}
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col items-center justify-center p-2 bg-gray-100 ">
+      <h1 className="text-3xl font-bold text-center mb-6">AI Chatbot</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Ask me anything..."
-          required
-        />
-        <button type="submit">Send</button>
-      </form>
-
-      {response && (
-        <div className="response">
-          <h2>AI Response:</h2>
-          <p>{response}</p>
+      <div className="w-full max-w-full flex flex-col gap-4">
+        <div
+          ref={chatContainerRef} // Attach the ref to the chat container
+          className="flex-grow w-[700px] mx-auto overflow-y-auto h-[75vh] p-4"
+        >
+          {conversation.map((msg, index) => (
+            <div
+              key={index}
+              className={`p-3 mb-2 rounded-md text-[17px] font-medium  ${
+                loading && conversation.length - 1 === index
+                  ? 'animate-pulse ellipsis'
+                  : ''
+              }   ${
+                msg.startsWith('User')
+                  ? 'bg-blue-100 bg-opacity-20 text-blue-900 text-right self-end'
+                  : 'bg-gray-200 text-gray-900 bg-opacity-40 text-left self-start'
+              }`}
+            >
+              {msg}
+            </div>
+          ))}
         </div>
-      )}
-      
-      <style jsx>{`
-        .chat-container {
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 20px;
-          font-family: Arial, sans-serif;
-          display: flex;
-          flex-direction: column;
-          height: 80vh;
-        }
 
-        .chat-box {
-          flex-grow: 1;
-          overflow-y: auto;
-          margin-bottom: 20px;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          background-color: #f9f9f9;
-          max-height: 500px;
-        }
-
-        .user-message {
-          text-align: right;
-          background-color: #d3f8d3;
-          padding: 8px;
-          border-radius: 8px;
-          margin: 5px;
-        }
-
-        .ai-message {
-          text-align: left;
-          background-color: #e2e2e2;
-          padding: 8px;
-          border-radius: 8px;
-          margin: 5px;
-        }
-
-        form {
-          display: flex;
-          gap: 10px;
-        }
-
-        input {
-          flex-grow: 1;
-          padding: 10px;
-          border-radius: 8px;
-          border: 1px solid #ccc;
-        }
-
-        button {
-          background-color: #4CAF50;
-          color: white;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-
-        button:hover {
-          background-color: #45a049;
-        }
-
-        .response {
-          margin-top: 20px;
-        }
-      `}</style>
+        <form onSubmit={handleSubmit} className="flex mx-auto w-[700px] items-center gap-4">
+          <input
+            type="text"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Ask me anything..."
+            required
+            className="flex-grow p-3 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className={`px-6 py-3 font-semibold rounded-lg shadow-md ${
+              loading
+                ? 'bg-gray-400 text-white cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300'
+            }`}
+          >
+            {loading ? 'Sending...' : 'Send'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

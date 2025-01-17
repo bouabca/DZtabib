@@ -47,7 +47,7 @@ const LoginInputFields: React.FC<LoginInputFieldsProps> = ({ formData, handleInp
     <div className="space-y-4">
       {/* Email Field */}
       <div>
-        <label htmlFor="email" className="block text-gray-700">Email</label>
+        <label htmlFor="email" className="block text-[20px] text-gray-700">Email</label>
         <input
           type="email"
           id="email"
@@ -55,7 +55,7 @@ const LoginInputFields: React.FC<LoginInputFieldsProps> = ({ formData, handleInp
           value={formData.email}
           onChange={handleInputChangeWithValidation}
           placeholder="Enter your email"
-          className={`w-full px-4 py-2 h-[50px] border rounded-md focus:outline-none focus:ring-2 ${
+          className={`w-full px-4 py-2 h-[50px] text-[20px] border rounded-md focus:outline-none focus:ring-2 ${
             errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
           }`}
           required
@@ -65,7 +65,7 @@ const LoginInputFields: React.FC<LoginInputFieldsProps> = ({ formData, handleInp
 
       {/* Password Field */}
       <div>
-        <label htmlFor="password" className="block text-gray-700">Password</label>
+        <label htmlFor="password" className="block text-[20px] text-gray-700">Password</label>
         <input
           type="password"
           id="password"
@@ -73,7 +73,7 @@ const LoginInputFields: React.FC<LoginInputFieldsProps> = ({ formData, handleInp
           value={formData.password}
           onChange={handleInputChangeWithValidation}
           placeholder="Enter your password"
-          className={`w-full px-4 py-2 h-[50px] border rounded-md focus:outline-none focus:ring-2 ${
+          className={`w-full px-4 py-2 h-[50px] text-[20px] border rounded-md focus:outline-none focus:ring-2 ${
             errors.password ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
           }`}
           required
