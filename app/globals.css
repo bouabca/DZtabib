@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@layer utilities {
+  .clip-polygon {
+    clip-path: polygon(0% 0%, 100% 0%, 80% 50%, 100% 100%, 0% 100%);
+  }
+  .clip-reserve { 
+    width: 70%;
+    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  
+ 
+  
+}
 html ,body{
     height: 100vh;
     scrollbar-width: none; /* Firefox */

@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
   	extend: {
+		clipPath: {
+			polygon: 'polygon(0% 0%, 100% 0%, 50% 54%, 100% 100%, 0% 100%)',
+		  },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -66,5 +69,5 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwind-clip-path')],
 } satisfies Config;

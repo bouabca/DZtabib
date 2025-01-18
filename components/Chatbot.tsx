@@ -4,7 +4,7 @@ export default function Chatbot() {
   const [prompt, setPrompt] = useState<string>(''); 
   const [conversation, setConversation] = useState<string[]>([]); 
   const [loading, setLoading] = useState<boolean>(false);
-
+  
   const chatContainerRef = useRef<HTMLDivElement>(null); // Reference to the chat container
 
   // Scroll to the bottom when the conversation updates
@@ -73,7 +73,7 @@ export default function Chatbot() {
       <div className="w-full max-w-full flex flex-col gap-4">
         <div
           ref={chatContainerRef} // Attach the ref to the chat container
-          className="flex-grow w-[700px] mx-auto overflow-y-auto h-[75vh] p-4"
+          className="flex-grow  w-[100%] md:w-[700px] mx-auto overflow-y-auto h-[75vh] p-4"
         >
           {conversation.map((msg, index) => (
             <div
@@ -93,7 +93,7 @@ export default function Chatbot() {
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex mx-auto w-[700px] items-center gap-4">
+        <form onSubmit={handleSubmit} className="flex mx-auto  w-[100%] md:w-[700px] items-center gap-4">
           <input
             type="text"
             value={prompt}
