@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { BsBookmarkFill } from "react-icons/bs";
+
 import { FaStar } from "react-icons/fa";
 import { LuCalendarRange } from "react-icons/lu";
 
@@ -50,7 +50,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ rate, image, id, DoctorName, lo
           <LuCalendarRange color="#969699" />
           <h1 className="text-[#969699] text-center">{date}</h1>
         </div>
-        <Link href="/dashPat/doctorProfile" className="bg-primary   hover:border-solid clip-reserve  rounded-br-2xl  text-white text-center py-1 px-4">
+        <Link href="/dashPat/doctorProfile" className="bg-primary   hover:border-solid clip-reserve  rounded-br-2xl text-white text-center py-1 px-4">
           Reserver
         </Link>
       </div>

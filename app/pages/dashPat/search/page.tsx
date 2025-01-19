@@ -2,11 +2,13 @@
 // /pages/dash/notification.tsx
 import React, { useEffect } from "react";
 import DoctorCard from "../../../../components/patientDash/DoctorCard"
+import SpecialitySelector from '../../../../components/patientDash/specslider'
 import { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import { FaGratipay } from "react-icons/fa";
 import { MdPriceChange } from "react-icons/md";
+
 interface Doctor {
   id: string;
   DoctorName: string;
@@ -26,6 +28,7 @@ const Search = () => {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
+  const [selectedSpeciality, setSelectedSpeciality] = useState("ALL");
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   const fetchDoctors = async () => {
@@ -48,7 +51,6 @@ const Search = () => {
     const getDoctors = async () => {
       setIsLoading(true);
       setIsError(false);
-      setIsSuccess(false);
       const doctorsFromServer = await fetchDoctors();
       if (doctorsFromServer.length > 0) {
         setIsSuccess(true);
@@ -61,6 +63,12 @@ const Search = () => {
     getDoctors();
   }, []);
 
+  const handleSpecialityChange = (speciality: string) => {
+  
+    setSelectedSpeciality(speciality);
+    console.log(speciality)
+  };
+
   const filteredDoctors = doctors.filter((doctor) => {
     return (
       doctor.DoctorName?.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -68,7 +76,9 @@ const Search = () => {
         doctor.location?.toLowerCase() === selectedLocation.toLowerCase()) &&
       (selectedPrice === "" ||
         doctor.price?.toLowerCase() === selectedPrice.toLowerCase()) &&
-      (selectedRating === "" || doctor.rate?.toString() === selectedRating)
+      (selectedRating === "" || doctor.rate?.toString() === selectedRating) &&
+      (selectedSpeciality === "ALL" ||
+        doctor.speciality?.toLowerCase() === selectedSpeciality.toLowerCase())
     );
   });
 
@@ -146,15 +156,15 @@ const Search = () => {
         </div>
       </div>
 
-      {/* Doctors List */}
+      <SpecialitySelector onSpecialityChange={handleSpecialityChange} />
       <h1 className="text-3xl font-bold mb-4">Doctors:</h1>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error fetching doctors. Please try again later.</p>}
       {isSuccess && (
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 lg:gap-8">
-          {filteredDoctors.map((doctor, index) => (
+          {filteredDoctors.map((doctor) => (
             <DoctorCard
-              key={index}
+              key={doctor.id}
               id={doctor.id}
               rate={doctor.rate}
               image={doctor.image}
@@ -162,7 +172,7 @@ const Search = () => {
               location={doctor.location}
               speciality={doctor.speciality}
               date={doctor.date}
-               />
+            />
           ))}
         </div>
       )}
