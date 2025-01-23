@@ -23,7 +23,7 @@ export default function Chatbot() {
 
   const handleTypingEffect = (fullResponse: string) => {
     let currentText = '';
-    const typingSpeed = 20; // Adjust typing speed (ms per character)
+    const typingSpeed = 5; // Adjust typing speed (ms per character)
 
     const interval = setInterval(() => {
       if (currentText.length < fullResponse.length) {

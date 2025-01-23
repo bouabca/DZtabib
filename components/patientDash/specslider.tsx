@@ -1,3 +1,4 @@
+import { spec } from "node:test/reporters";
 import React, { useState, useEffect } from "react";
 
 interface SpecialitySelectorProps {
@@ -13,7 +14,10 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
   const specialities = [
     "ALL",
     ...Array.from({ length: 19 }, (_, i) => `speciality ${i + 1}`), // Generates "speciality 1" to "speciality 19"
-  ]  
+  ]
+
+
+  const [spec ,setspecialities ] = useState(specialities)
 
   const [dropdownSpecialities, setDropdownSpecialities] = useState<string[]>([]);
 
@@ -33,8 +37,13 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
 
   useEffect(() => {
     if (windowWidth !== 0) {
-      const numItemsInSpecialities = Math.floor(windowWidth / 200);
+      const numItemsInSpecialities = Math.floor(windowWidth / 212);
       setDropdownSpecialities(specialities.slice(numItemsInSpecialities));
+      setspecialities(specialities.filter(spec => !dropdownSpecialities.includes(spec)))
+      console.log("spec :",spec)
+      console.log("specialities :",specialities)
+      console.log("drop down :",dropdownSpecialities)
+
     }
   }, [windowWidth]);
 
@@ -59,7 +68,7 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
     <div className="relative w-full bg-white p-3 py-2 my-5 rounded-full flex flex-col items-center shadow-lg">
       <div className="flex w-full items-center text-lg font-medium">
         <div className="overflow-x-scroll flex flex-row w-full gap-14 md:gap-20 lg:gap-9">
-          {specialities.slice(0, Math.floor(windowWidth / 120)).map((speciality, index) => (
+          {spec.slice(0, Math.floor(windowWidth / 120)).map((speciality, index) => (
             <span
               key={index}
               className={`cursor-pointer rounded-full h-[45px] relative z-[3] flex justify-center items-center w-[120px] px-2 transition-colors duration-200 ${
