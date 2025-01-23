@@ -99,10 +99,10 @@ export default function Chatbot() {
     <div className="flex flex-col items-center justify-center  bg-gray-100 ">
       <h1 className="text-3xl mt-2 font-bold text-center mb-2">Doc AI</h1>
 
-      <div className="w-full max-w-full flex flex-col gap-4">
+      <div className="w-full max-w-full  flex flex-col gap-4">
         <div
           ref={chatContainerRef} // Attach the ref to the chat container
-          className="flex-grow w-[100%] md:w-[700px] mx-auto overflow-y-auto h-[75vh]"
+          className="flex-grow w-[100%] md:w-[700px] border rounded p-1 mx-auto overflow-y-auto h-[66vh] md:h-[75vh]"
         >
           {conversation.map((msg, index) => (
             <div
@@ -122,7 +122,7 @@ export default function Chatbot() {
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex mx-auto w-[100%]   md:w-[700px] items-center gap-4">
+        <form onSubmit={handleSubmit} className="flex mx-auto w-[100%] p-2 md:p-0  md:w-[700px] items-center gap-4">
           <input
             type="text"
             value={prompt}
