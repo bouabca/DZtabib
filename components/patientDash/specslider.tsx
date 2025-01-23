@@ -1,4 +1,4 @@
-import { spec } from "node:test/reporters";
+
 import React, { useState, useEffect } from "react";
 
 interface SpecialitySelectorProps {
@@ -37,6 +37,7 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
 
   useEffect(() => {
     if (windowWidth !== 0) {
+      console.log(windowWidth)
       const numItemsInSpecialities = Math.floor(windowWidth / 212);
       setDropdownSpecialities(specialities.slice(numItemsInSpecialities));
       setspecialities(specialities.filter(spec => !dropdownSpecialities.includes(spec)))
@@ -65,9 +66,9 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
   };
 
   return (
-    <div className="relative w-full bg-white p-3 py-2 my-5 rounded-full flex flex-col items-center shadow-lg">
+    <div className="relative w-full bg-white p-3 py-2 my-5  rounded-full  flex flex-col items-center shadow-lg">
       <div className="flex w-full items-center text-lg font-medium">
-        <div className="overflow-x-scroll flex flex-row w-full gap-14 md:gap-20 lg:gap-9">
+        <div className="overflow-hidden  flex   flex-row w-full gap-14 md:gap-20 lg:gap-9">
           {spec.slice(0, Math.floor(windowWidth / 120)).map((speciality, index) => (
             <span
               key={index}

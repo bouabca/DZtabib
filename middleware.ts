@@ -61,6 +61,9 @@ async function refreshAccessToken(refreshToken: string) {
 }
 
 export async function middleware(request: NextRequest) {
+  console.time('middlewareExecutionTime');
+
+
   const url = request.nextUrl.clone();
 
 
@@ -254,7 +257,11 @@ export async function middleware(request: NextRequest) {
 
 
 
+
+  console.timeEnd('middlewareExecutionTime');
   return NextResponse.next(); // Allow other routes to proceed as normal
+
+
 }
 
 export const config = {
