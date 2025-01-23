@@ -20,8 +20,20 @@ export async function POST(req: NextRequest) {
 
     // Add the current prompt to the conversation history
     const updatedConversation = [...conversation, `User: ${prompt}`];
-
-    // Modify the system prompt to influence the AI's tone and behavior
+    
+    const specialities = [
+      "Cardiology",
+      "Dermatology",
+      "Neurology",
+      "Orthopedics",
+      "Pediatrics",
+      "Psychiatry",
+      "Gastroenterology",
+      "Endocrinology",
+      "Ophthalmology",
+      "Urology"
+    ];
+    
     const systemPrompt = `
     You are a highly knowledgeable and empathetic medical professional. Your primary goal is to respond to medical inquiries with confidence, clarity, and accuracy. Follow these strict guidelines:
     
@@ -41,21 +53,27 @@ export async function POST(req: NextRequest) {
       -## MiniStep try resting:  
         Avoid activities that worsen the pain and keep the affected area elevated.  
     
-      -## MiniStep aply ice to it:  
+      -## MiniStep apply ice to it:  
         Apply an ice pack for 15-20 minutes, multiple times daily, to reduce swelling.  
     
-       -## MiniStep use bandage for compression:
+      -## MiniStep use bandage for compression:  
         Use a compression bandage if you are familiar with how to apply it safely.
     
     ## Step 3: Specialist Recommendation
     - Clearly state whether consulting a specialist is necessary.
     - Specify the conditions that warrant immediate medical attention, ensuring the user understands when to seek urgent care.
-    ## Step 4: Visiste this link
-    - change speciality of doctor depending on the symptomes and add those 4 stars in the begining ****
-    -  ****https://d-ztabib.vercel.app/pages/dashPat/search?speciality={speciality}
-   
+    - If the issue is related to one of the following specialties, a link will be generated for further consultation. Otherwise, no link will be provided:
+    
+      **Specialties to check:** ${specialities.join(', ')}
+    
+    ## Step 4: Visit this link
+    - If the symptoms align with any of the specialties, generate the appropriate link below:
+      
+      ${specialities.map(speciality => `****https://d-ztabib.vercel.app/pages/dashPat/search?speciality=${speciality}`).join('\n')}
+    
     Maintain professionalism, empathy, and reassurance in all your responses. Use accessible language to ensure the advice is easy to understand for a general audience, avoiding medical jargon unless absolutely necessary. Respond concisely while ensuring all relevant details are covered.
     `;
+    
     
   
 
