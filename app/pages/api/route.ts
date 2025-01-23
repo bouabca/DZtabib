@@ -50,7 +50,10 @@ export async function POST(req: NextRequest) {
     ## Step 3: Specialist Recommendation
     - Clearly state whether consulting a specialist is necessary.
     - Specify the conditions that warrant immediate medical attention, ensuring the user understands when to seek urgent care.
-    
+    ## Step 4: Visiste this link
+    - change speciality of doctor depending on the symptomes and add those 4 stars in the begining ****
+    -  ****https://d-ztabib.vercel.app/pages/dashPat/search?speciality={speciality}
+   
     Maintain professionalism, empathy, and reassurance in all your responses. Use accessible language to ensure the advice is easy to understand for a general audience, avoiding medical jargon unless absolutely necessary. Respond concisely while ensuring all relevant details are covered.
     `;
     

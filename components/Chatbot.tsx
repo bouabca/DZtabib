@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState, useEffect, useRef, FormEvent } from 'react';
 
 export default function Chatbot() {
@@ -42,25 +43,37 @@ export default function Chatbot() {
 
   const formatAIResponse = (text: string) => {
     const lines = text.split('\n').filter(Boolean); // Split response by lines and filter out empty lines
-
+  
     return (
       <div>
         {lines.map((line, index) => {
           const isStep = line.startsWith('## Step');
           const isMiniStep = line.startsWith('-## MiniStep');
+          const link = line.startsWith('****');
+          const keyValue = `${line}-${index}`; // Ensure uniqueness
+  
           return (
-            <p
-              key={index}
-              className={isStep ? 'text-[28px]   font-bold mb-2 text-blue-500' : isMiniStep ? 'text-[24px]   font-bold mb-2 text-black' : 'text-base mb-1'} 
+            link ? 
+            <Link  
+              href={line.replace('****', '')}
+              key={keyValue}
+              className={'text-red-400'} 
             >
-              {isStep ? line.replace('## ', '') :   isMiniStep ? line.replace('-## MiniStep', '') : line}
-       
+              {line.replace('****', '')}
+            </Link>  
+            :
+            <p
+              key={keyValue}
+              className={isStep ? 'text-[28px] font-bold mb-2 text-blue-500' : isMiniStep ? 'text-[24px] font-bold mb-2 text-black' : 'text-base mb-1'} 
+            >
+              {isStep ? line.replace('## ', '') : isMiniStep ? line.replace('-## MiniStep', '') : line}
             </p>  
           );
         })}
       </div>
     );
   };
+  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
