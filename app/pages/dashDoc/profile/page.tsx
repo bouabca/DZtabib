@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic"; // Import dynamic for map component
-import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css"; 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 

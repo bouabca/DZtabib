@@ -1,9 +1,11 @@
 
-import React from 'react';
 
 
 
-export default function dashDoc() {
+const dashDoc = () => {
+  
+
+ 
   return (
     <>
  
@@ -16,3 +18,5 @@ export default function dashDoc() {
 
   );
 }
+
+export default dashDoc;

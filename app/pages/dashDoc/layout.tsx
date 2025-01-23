@@ -4,15 +4,18 @@ import Nav from "../../../components/nav"
 import Link from "next/link";
 import DropdownImageMenu from "@/components/Hamb";
 
+
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const tabs = ["notification", "appointments", "historique", "Profile"];
 
   const links = ["notification", "appointments", "historique", "profile"]; // Menu links
   const imageSrc = "/svg/hamp.svg"; // Path to your menu image
   const altText = "Menu Icon";
+
+
   return (
-    <html  lang="en">
-      <body  >
+
         <div className="w-full h-full overflow-y-scroll overflow-x-hidden   flex lg:flex-row flex-col">
           {/* Sidebar Section */}
           <div className="w-screen fixed  md:relative z-50 lg:text-[24px] lg:w-[20%] overflow-x-visible   lg:overflow-hidden lg:overflow-y-scroll flex flex-col   lg:gap-4 lg:items-center    bg-slate-50 sidebar">
@@ -86,7 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </div>
-      </body>
-    </html>
+  
   );
 }
