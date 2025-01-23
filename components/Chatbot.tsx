@@ -12,6 +12,13 @@ export default function Chatbot() {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+  }, []);
+
+  useEffect(() => {
+    
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [conversation]);
 
   const handleTypingEffect = (fullResponse: string) => {
@@ -31,6 +38,28 @@ export default function Chatbot() {
         setLoading(false); // Typing complete
       }
     }, typingSpeed);
+  };
+
+  const formatAIResponse = (text: string) => {
+    const lines = text.split('\n').filter(Boolean); // Split response by lines and filter out empty lines
+
+    return (
+      <div>
+        {lines.map((line, index) => {
+          const isStep = line.startsWith('## Step');
+          const isMiniStep = line.startsWith('-## MiniStep');
+          return (
+            <p
+              key={index}
+              className={isStep ? 'text-[28px]   font-bold mb-2 text-blue-500' : isMiniStep ? 'text-[24px]   font-bold mb-2 text-black' : 'text-base mb-1'} 
+            >
+              {isStep ? line.replace('## ', '') :   isMiniStep ? line.replace('-## MiniStep', '') : line}
+       
+            </p>  
+          );
+        })}
+      </div>
+    );
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -67,33 +96,33 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 bg-gray-100 ">
-      <h1 className="text-3xl font-bold text-center mb-6">AI Chatbot</h1>
+    <div className="flex flex-col items-center justify-center  bg-gray-100 ">
+      <h1 className="text-3xl mt-2 font-bold text-center mb-2">Doc AI</h1>
 
       <div className="w-full max-w-full flex flex-col gap-4">
         <div
           ref={chatContainerRef} // Attach the ref to the chat container
-          className="flex-grow  w-[100%] md:w-[700px] mx-auto overflow-y-auto h-[75vh] p-4"
+          className="flex-grow w-[100%] md:w-[700px] mx-auto overflow-y-auto h-[75vh]"
         >
           {conversation.map((msg, index) => (
             <div
               key={index}
-              className={`p-3 mb-2 rounded-md text-[17px] font-medium  ${
+              className={`p-3 mb-2 rounded-md text-[17px] font-medium ${
                 loading && conversation.length - 1 === index
                   ? 'animate-pulse ellipsis'
                   : ''
-              }   ${
+              } ${
                 msg.startsWith('User')
                   ? 'bg-blue-100 bg-opacity-20 text-blue-900 text-right self-end'
                   : 'bg-gray-200 text-gray-900 bg-opacity-40 text-left self-start'
               }`}
             >
-              {msg}
+              {msg.startsWith('AI:') ? formatAIResponse(msg.replace('AI: ', '')) : msg}
             </div>
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex mx-auto  w-[100%] md:w-[700px] items-center gap-4">
+        <form onSubmit={handleSubmit} className="flex mx-auto w-[100%]   md:w-[700px] items-center gap-4">
           <input
             type="text"
             value={prompt}
