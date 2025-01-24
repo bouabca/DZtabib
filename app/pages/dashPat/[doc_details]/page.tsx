@@ -140,25 +140,28 @@ export default function Page() {
           </div>
 
           {/* Certificate or location image */}
-          <div className='border p-4'>
+          {/* <div className='border p-4'>
             {activeTab === "location" ? (
               <Image src={docDetails.adressImage} alt="location" className="bg-green-200 p-8" width={800} height={1200} />
             ) : (
               <Image src={docDetails.certificate} alt="certificate" className="bg-red-200 p-8" width={800} height={1200} />
             )}
-          </div>
-
-         
+          </div> */}
+        <div className='w-[600px] h-[300px] m-4'>
+        <LocationMap 
+          latitude={40.7128} 
+          longitude={-74.0060} 
+          address="New York City"  
+          
+        />
+        </div>
+        
 
 
         </>
       )}
 
-        <LocationMap 
-          latitude={40.7128} 
-          longitude={-74.0060} 
-          address="New York City" 
-        />
+   
     </div>
   );
 }
