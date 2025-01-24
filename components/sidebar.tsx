@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-
+import { FileText, HelpCircle, LogOut } from 'lucide-react'; 
 import Nav from "./nav";
 
 interface DashboardLayoutProps {
@@ -77,27 +77,33 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </nav>
 
         {/* Footer Links */}
-        <div className="p-4 mt-auto border-t space-y-2">
-          {["Terms & Conditions", "Support"].map((item) => (
-            <div 
-              key={item} 
-              className="cursor-pointer hover:bg-gray-100 p-2 rounded"
-              onClick={handleNavClick}
-            >
-              {item}
-            </div>
-          ))}
+        {/* Footer Links */}
+      <div className="p-4 mt-auto border-t space-y-2">
+        {[
+          { name: "Terms & Conditions", icon: <FileText className="w-5 h-5" /> },
+          { name: "Support", icon: <HelpCircle className="w-5 h-5" /> },
+        ].map((item) => (
           <div 
-            className="cursor-pointer hover:bg-gray-100 p-2 rounded text-red-500"
+            key={item.name} 
+            className="cursor-pointer hover:bg-gray-100 p-2 rounded flex items-center gap-2"
             onClick={handleNavClick}
           >
-            Log out
+            {item.icon} {/* Render the icon */}
+            {item.name} {/* Render the text */}
           </div>
+        ))}
+        <div 
+          className="cursor-pointer hover:bg-gray-100 p-2 rounded text-red-500 flex items-center gap-2"
+          onClick={handleNavClick}
+        >
+          <LogOut className="w-5 h-5" /> {/* Render the LogOut icon */}
+          Log out
         </div>
+      </div>
       </div>
 
       {/* Main Dashboard Section */}
-      <main className="flex-grow md:w-4/5 bg-[#F5F5F6] overflow-hidden">
+      <main className="flex-grow md:w-4/5 bg-[#F3F4FA] overflow-hidden">
         {/* Top Header */}
         <header className="bg-white border-b h-20 flex items-center px-4 md:px-8">
           <div className="flex flex-col">
