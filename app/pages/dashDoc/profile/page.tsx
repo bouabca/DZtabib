@@ -1,364 +1,429 @@
+/* eslint-disable */
 "use client";
-import dynamic from "next/dynamic"; // Import dynamic for map component
-import "leaflet/dist/leaflet.css"; 
-import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-
-
-
-
-// Dynamically import the map to avoid hydration issues
-const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
-import { useMapEvents } from 'react-leaflet'; 
-import { LeafletMouseEvent } from 'leaflet';
 import Link from "next/link";
+import type { Map } from "leaflet";
+import { useMapEvents } from "react-leaflet";
 
+// Type definitions
+interface Comment {
+  id: number;
+  profilePic: string;
+  username: string;
+  rating: number;
+  comment: string;
+}
+
+interface Location {
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+// Constants
+const SPECIALTIES = [
+  "Cardiologist",
+  "Dermatologist",
+  "Pediatrician",
+  "Orthopedic Surgeon",
+  "Neurologist",
+  "Psychiatrist",
+  "Gynecologist",
+  "General Practitioner",
+  "Dentist",
+  "Ophthalmologist",
+];
+
+const LOCATIONS: Location[] = [
+  { name: "Bejaia", lat: 36.7533, lng: 5.0667 },
+  { name: "Alger", lat: 36.7538, lng: 3.0588 },
+  { name: "Oran", lat: 35.6992, lng: -0.6333 },
+  { name: "Constantine", lat: 36.365, lng: 6.6149 },
+  { name: "Annaba", lat: 36.8663, lng: 7.7639 },
+  { name: "Tlemcen", lat: 34.8885, lng: -1.3165 },
+  { name: "Blida", lat: 36.48, lng: 2.8293 },
+  { name: "Batna", lat: 35.5612, lng: 6.1782 },
+  { name: "Sétif", lat: 36.1833, lng: 5.4167 },
+  { name: "Chlef", lat: 36.1667, lng: 1.3333 },
+];
+
+const COMMENTS: Comment[] = [
+  {
+    id: 1,
+    profilePic: "/png/doc.png",
+    username: "John Doe",
+    rating: 4,
+    comment: "Excellent medical service!",
+  },
+  {
+    id: 2,
+    profilePic: "/png/doc.png",
+    username: "Jane Smith",
+    rating: 5,
+    comment: "Highly professional care.",
+  },
+];
+
+// Dynamically imported Leaflet components
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+
+const Popup = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Popup),
+  { ssr: false }
+);
+
+// Custom marker icon configuration
+const createCustomIcon = async () => {
+  const L = await import("leaflet");
+  return L.icon({
+    iconUrl: "/leaflet-images/marker-icon.png",
+    iconRetinaUrl: "/leaflet-images/marker-icon-2x.png",
+    shadowUrl: "/leaflet-images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+};
+
+// StarRating component
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex">
+    {[...Array(5)].map((_, i) => (
+      <span
+        key={i}
+        className={`text-2xl ${i < rating ? "text-yellow-400" : "text-gray-300"}`}
+      >
+        ★
+      </span>
+    ))}
+  </div>
+);
+// FileUpload component
+const FileUpload = ({
+  onFileChange,
+  imagePreview,
+}: {
+  onFileChange: (file: File) => void;
+  imagePreview: string | null;
+}) => {
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      onFileChange(file); // Explicitly call the function
+    }
+  };
+
+  return (
+    <div
+      className="w-full h-[450px] mt-6 border-2 border-dashed border-gray-400 rounded-lg overflow-scroll relative"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={handleDrop}
+    >
+      {!imagePreview ? (
+        <div className="w-full h-full flex flex-col justify-center items-center bg-white">
+          <input
+            id="certificate"
+            type="file"
+            onChange={(e) => e.target.files?.[0] && onFileChange(e.target.files[0])}
+            accept="image/*,.pdf"
+            className="hidden"
+          />
+          <label htmlFor="certificate" className="cursor-pointer text-center">
+            <p className="text-gray-500 text-lg">Drag & Drop or Browse</p>
+            <p className="text-gray-400 text-sm">(JPEG, PNG, PDF)</p>
+          </label>
+        </div>
+      ) : (
+        <Image
+          src={imagePreview}
+          alt="Certificate preview"
+          fill
+          className="object-contain"
+          priority
+        />
+      )}
+    </div>
+  );
+};
+// Main Profile component
 const Profile: React.FC = () => {
-  // State to handle inputs
-  const specialties = [
-    "Cardiologist",
-    "Dermatologist",
-    "Pediatrician",
-    "Orthopedic Surgeon",
-    "Neurologist",
-    "Psychiatrist",
-    "Gynecologist",
-    "General Practitioner",
-    "Dentist",
-    "Ophthalmologist"
-  ];
-
-  const [name, setName] = useState<string>("geek ");
-  const [specialty, setSpecialty] = useState<string>(specialties[0]);
-  const [description, setDescription] = useState<string>("The second best doctor in the algeria after ramy");
+  const [name, setName] = useState("");
+  const [specialty, setSpecialty] = useState(SPECIALTIES[0]);
+  const [description, setDescription] = useState("");
   const [certificate, setCertificate] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [location, setLocation] = useState<string>("");
-  const [lat, setLat] = useState<number | null>(null);
-  const [lng, setLng] = useState<number | null>(null);
+  const [location, setLocation] = useState(LOCATIONS[0].name);
+  const [coords, setCoords] = useState(LOCATIONS[0]);
+  const [markerIcon, setMarkerIcon] = useState<L.Icon | null>(null);
+  const mapRef = useRef<Map | null>(null);
 
-  // Predefined list of locations (e.g., cities or regions)
-  const locations = [
-    { name: "Bejaia", lat: 36.7533, lng: 5.0667 },  
-    { name: "Alger", lat: 36.7538, lng: 3.0588 },        // Algiers
-    { name: "Oran", lat: 35.6992, lng: -0.6333 },        // Oran
-    { name: "Constantine", lat: 36.3650, lng: 6.6149 },   // Constantine
-    { name: "Annaba", lat: 36.8663, lng: 7.7639 },        // Annaba
-    { name: "Tlemcen", lat: 34.8885, lng: -1.3165 },      // Tlemcen
-    { name: "Blida", lat: 36.4800, lng: 2.8293 },        // Blida
-    { name: "Batna", lat: 35.5612, lng: 6.1782 },         // Batna
-    { name: "Sétif", lat: 36.1833, lng: 5.4167 },         // Sétif
-    { name: "Béjaïa", lat: 36.7533, lng: 5.0667 },        // Béjaïa
-    { name: "Chlef", lat: 36.1667, lng: 1.3333 }, 
-  
-  ];
-
-
-
-  const comments = [
-    {
-      id: 1,
-      profilePic: '/png/doc.png', // Replace with the actual image URL
-      username: 'John Doe',
-      rating: 4,
-      comment: 'This is an amazing product! Highly recommended.',
-    },
-    {
-      id: 2,
-      profilePic: '/png/doc.png', // Replace with the actual image URL
-      username: 'Jane Smith',
-      rating: 5,
-      comment: 'Absolutely love this! Will buy again.',
-    },
-    {
-      id: 3,
-      profilePic: '/png/doc.png', // Replace with the actual image URL
-      username: 'Mike Johnson',
-      rating: 3,
-      comment: 'It s okay, but I ve seen better.',
-    },
-  ];
-
-  const selectedLocation = locations.find((loc) => loc.name === location);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      setLat(selectedLocation.lat);
-      setLng(selectedLocation.lng);
-    }
-  }, [location]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFile = e.target.files[0];
-      setCertificate(selectedFile);
-      previewImage(selectedFile);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      const droppedFile = e.dataTransfer.files[0];
-      setCertificate(droppedFile);
-      previewImage(droppedFile);
-    }
-  };
-
-  const previewImage = (file: File) => {
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file); // For image files
-    } else {
-      setImagePreview(null); // If it's not an image, reset the preview
-    }
-  };
-
-  // Function to handle map events using the hookimport { MouseEvent as LeafletMouseEvent } from 'leaflet'; /
+  // Map click handler
   const MapClickHandler = () => {
-    useMapEvents({
-      click(e: LeafletMouseEvent) { // Use the specific LeafletMouseEvent type for the event
-        const { lat, lng } = e.latlng; // Access latlng directly from the event
-        setLat(lat);
-        setLng(lng);
+    const map = useMapEvents({
+      click(e) {
+        const { lat, lng } = e.latlng;
+        setCoords({ lat, lng, name: "Custom Location" });
+        map.setView([lat, lng], map.getZoom());
       },
     });
-  
-    return null; // This component doesn't need to render anything itself
+    return null;
   };
 
+  // Handle location dropdown change
+  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = LOCATIONS.find((loc) => loc.name === e.target.value);
+    if (selected) {
+      setLocation(selected.name);
+      setCoords(selected);
+      if (mapRef.current) {
+        mapRef.current.setView([selected.lat, selected.lng], mapRef.current.getZoom());
+      }
+    }
+  };
 
-  const handleButtonClick = async () => {
-    if (!name || !specialty || !description || !location || lat === null || lng === null || !certificate) {
-      console.error("All fields are required");
+  // Load custom marker icon
+  useEffect(() => {
+    (async () => {
+      const L = await import("leaflet");
+      const icon = await createCustomIcon();
+      setMarkerIcon(icon);
+
+      // Reset default Leaflet markers
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconUrl: "/leaflet-images/marker-icon.png",
+        iconRetinaUrl: "/leaflet-images/marker-icon-2x.png",
+        shadowUrl: "/leaflet-images/marker-shadow.png",
+      });
+    })();
+  }, []);
+
+  // Handle file upload
+  const handleFileChange = (file: File) => {
+    if (!file.type.match(/image\/(jpeg|png)|application\/pdf/)) return;
+
+    setCertificate(file);
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async () => {
+    if (!name || !specialty || !description || !coords || !certificate) {
+      alert("Please fill all required fields");
       return;
     }
-  
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("specialty", specialty);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("lat", coords.lat.toString());
+    formData.append("lng", coords.lng.toString());
+    formData.append("certificate", certificate);
+
     try {
-      // Prepare the form data
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("specialty", specialty);
-      formData.append("description", description);
-      formData.append("location", location);
-      formData.append("lat", lat.toString());
-      formData.append("lng", lng.toString());
-      formData.append("certificate", certificate);
-  
-      const response = await fetch("https://your-api-endpoint.com/api/resource", {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT!, {
         method: "POST",
         body: formData,
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Success:", data);
-      } else {
-        console.error("Error:", response.statusText);
-      }
+
+      if (!response.ok) throw new Error("Submission failed");
+      alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("Submission error:", error);
+      alert("Error updating profile");
     }
   };
-  
-   
 
   return (
-    <div className="w-full flex flex-col h-full bg-[#18A0FB]">
-  
-      <div className="flex flex-row justify-between items-center w-[80%] lg:w-[500px]  mx-auto">
-        <div className="flex flex-col justify-center items-center text-white">
-          <Image src="/svg/star.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
-          <div className="text-[20px] font-bold">150 +</div>
-          <div className="text-[16px]">Patient</div>
+    <div className="h-screen overflow-scroll">
+      <div className="w-full flex flex-col bg-[#18A0FB]">
+        {/* Header Section */}
+        <div className="flex flex-col items-center py-8">
+          <div className="flex gap-8 mb-8">
+            {[
+              ["star", "Patients"],
+              ["crown", "Experience"],
+              ["heart", "Rating"],
+            ].map(([icon, label]) => (
+              <div key={icon as string} className="flex flex-col items-center text-white">
+                <Image
+                  src={`/svg/${icon}.svg`}
+                  width={80}
+                  height={80}
+                  alt={`${label} icon`}
+                  className="hover:scale-110 transition-transform"
+                />
+                <div className="text-2xl font-bold mt-2">150+</div>
+                <div className="text-lg">{label}</div>
+              </div>
+            ))}
+          </div>
+
+          <Image
+            src="/png/doc.png"
+            width={200}
+            height={200}
+            alt="Profile"
+            className="rounded-full border-4 border-white shadow-lg"
+            priority
+          />
         </div>
 
-        <div className="flex flex-col justify-center items-center text-white">
-          <Image src="/svg/crown.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
-          <div className="text-[20px] font-bold">150 +</div>
-          <div className="text-[16px]">Patient</div>
+        {/* Buttons Section */}
+        <div className="flex flex-col md:flex-row gap-4 justify-center p-4">
+          <Link
+            href="/profilesettings"
+            className="bg-white text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
+          >
+            Profile Settings
+          </Link>
+          <button
+            onClick={handleSubmit}
+            className="bg-white text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
+          >
+            Save Changes
+          </button>
         </div>
 
-        <div className="flex flex-col justify-center items-center text-white">
-          <Image src="/svg/heart.svg" width={80} height={80} className="m-[20px] mx-auto" alt="doc" />
-          <div className="text-[20px] font-bold">150 +</div>
-          <div className="text-[16px]">Patient</div>
-        </div>
-      </div>
+        {/* Main Content Section */}
+        <div className="flex-1 bg-[#F5F5F6] rounded-t-3xl p-8 flex flex-col lg:flex-row gap-8">
+          {/* Location Selector and Map */}
+          <div className="lg:w-1/3 flex flex-col gap-4">
+            <div className="space-y-2">
+              <label className="block font-semibold text-gray-700">Location</label>
+              <select
+                value={location}
+                onChange={handleLocationChange}
+                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                {LOCATIONS.map((loc) => (
+                  <option key={loc.name} value={loc.name}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      <Image src="/png/doc.png" width={200} height={200} className="m-[20px] mx-auto" alt="doc" />
-      <div className="flex flex-col md:flex-row">
-
-      <Link href={'profilesettings'}
-        
-          className="bg-white w-[90%] md:w-[200px] flex justify-center  mx-auto mb-4   md:m-4 md:ml-auto text-[#18A0FB] font-semibold py-2 px-4 rounded-[20px] border border-blue-500 hover:bg-blue-100"
-        >
-           Profile setings
-        </Link>
-      <button
-          onClick={handleButtonClick}
-          className="bg-white w-[90%] md:w-[200px] mx-auto mb-4  md:m-4 md:mr-[4%]  text-[#18A0FB] font-semibold py-2 px-4 rounded-[20px] border border-blue-500 hover:bg-blue-100"
-        >
-       Save
-        </button>
-      </div>
-   
-      <div className=" lg:h-[55%] w-full justify-center items-center flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row bg-[#F5F5F6] px-12 p-4 rounded-t-[30px] mt-auto">
-        <div className="w-full lg:w-[30%]   h-full flex-col justify-center items-center">
-          {/* Location Select */}
-          <div className="w-[90%] flex flex-col justify-start items-start mx-auto h-full">
-            <label htmlFor="location" className="text-black font-semibold">Location</label>
-            <select
-              id="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="w-full bg-white border border-light-gray rounded-[5px]  p-4 text-black focus:outline-none"
-            >
-              <option value="">Select Location</option>
-              {locations.map((loc) => (
-                <option key={loc.name} value={loc.name}>
-                  {loc.name}
-                </option>
-              ))}
-            </select>
-            {selectedLocation && (
-              <div className="w-full h-[82%]">
+            {coords && markerIcon && (
+              <div className="h-96 bg-white rounded-lg overflow-hidden shadow-lg">
                 <MapContainer
-                  key={`${lat},${lng}`} // Use lat and lng to generate a unique key
-                  center={[lat ?? 0, lng ?? 0]}
+                  center={[coords.lat, coords.lng]}
                   zoom={12}
-                  className="w-full h-full"
+                  className="h-full w-full"
+                  ref={(map) => {
+                    if (map) {
+                      mapRef.current = map;
+                    }
+                  }}
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
-                  <Marker position={[lat ?? 0, lng ?? 0]}>
-                   
-                    <Popup>{selectedLocation.name}</Popup>
+                  <Marker position={[coords.lat, coords.lng]} icon={markerIcon}>
+                    <Popup className="text-sm font-semibold">
+                      {coords.name || location}
+                    </Popup>
                   </Marker>
-                  <MapClickHandler /> {/* Add map click handler here */}
+                  <MapClickHandler />
                 </MapContainer>
               </div>
             )}
           </div>
-        </div>
 
-        <div className="w-full lg:w-[50%] mx-auto  flex-col justify-center h-[500px] lg:h-full  items-center">
-          <div className="w-[90%] mx-auto">
-            {/* Name input */}
-            <label htmlFor="name" className="text-black font-semibold">Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none"
-            />
-          </div>
-
-      
-          <div className="w-[90%] mx-auto">
-            {/* Specialty select */}
-            <label htmlFor="specialty" className="text-black font-semibold">Specialty</label>
-            <select
-              id="specialty"
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none"
-            >
-              <option value="">Select Specialty</option>
-              {specialties.map((spec) => (
-                <option key={spec} value={spec}>
-                  {spec}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="w-[90%] mx-auto">
-            {/* Description about doctor input */}
-            <label htmlFor="description" className="text-black font-semibold">Description</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Write about the doctor"
-              className="w-full bg-white border border-light-gray rounded-[5px] p-4 text-black focus:outline-none h-[200px]"
-            />
-          </div>
-        </div>
-
-        <div className="w-full  lg:w-[25%] overflow-hidden h-[1000px] lg:h-full flex flex-col justify-start items-start border-2 border-dashed border-gray-400 rounded-lg">
-          {!certificate ? (
-            <div
-              className="w-[90%] mx-auto my-auto h-[150px] flex flex-col justify-center items-center border-2 border-dashed border-gray-400 rounded-lg bg-white cursor-pointer"
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-            >
+          {/* Profile Form Section */}
+          <div className="lg:w-1/2 space-y-6">
+            <div className="space-y-2">
+              <label className="block font-semibold text-gray-700">Name</label>
               <input
-                id="certificate"
-                type="file"
-                onChange={handleFileChange}
-                accept=".jpg,.png,.jpeg"
-                className="hidden"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
               />
-              <span className="text-gray-500 text-lg">Drag & Drop your certificate here</span>
-              <span className="text-gray-400 text-sm">or</span>
-              <button className="text-blue-500 text-sm">Browse Files</button>
             </div>
-          ) : (
-            <div
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              className="overflow-hidden flex flex-col justify-start items-start w-full h-full bg-black bg-cover bg-center"
-              style={{ backgroundImage: `url(${imagePreview || URL.createObjectURL(certificate)})` }}
-            >
-            
+
+            <div className="space-y-2">
+              <label className="block font-semibold text-gray-700">Specialty</label>
+              <select
+                value={specialty}
+                onChange={(e) => setSpecialty(e.target.value)}
+                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                {SPECIALTIES.map((spec) => (
+                  <option key={spec} value={spec}>
+                    {spec}
+                  </option>
+                ))}
+              </select>
             </div>
-          )}
-        </div>
-        
-      </div>
-      <div className="w-full h-auto px-4 bg-[#F5F5F6]"> 
-      {comments.map(({ id, profilePic, username, rating, comment }) => (
-        <div
-          key={id}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '15px',
-            padding: '10px',
-   
-            borderRadius: '8px',
-            background: '#f9f9f9',
-          }}
-        >
-          <Image
-          height={100}
-          width={100}
-            src={profilePic}
-            alt={`${username}'s profile`}
-            className="mx-2"
-          />
-          <div>
-            <div style={{ fontWeight: 'bold' }}>{username}</div>
-            <div style={{ color: '#ffd700'  ,fontSize: '25px'}}>
-              {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+
+            <div className="space-y-2">
+              <label className="block font-semibold text-gray-700">Description</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="About the doctor"
+                className="w-full h-60 p-3 bg-white border rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
-            <div style={{ fontSize: '14px', color: '#555' }}>{comment}</div>
+          </div>
+
+          {/* File Upload Section */}
+          <div className="lg:w-1/4">
+            <FileUpload onFileChange={handleFileChange} imagePreview={imagePreview} />
           </div>
         </div>
-      ))}
+
+        {/* Comments Section */}
+        <div className="bg-[#F5F5F6] mb-[80px] p-8 space-y-6">
+          {COMMENTS.map((comment) => (
+            <div
+              key={comment.id}
+              className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <Image
+                src={comment.profilePic}
+                width={60}
+                height={60}
+                alt={comment.username}
+                className="rounded-full flex-shrink-0"
+              />
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-800">{comment.username}</h3>
+                <StarRating rating={comment.rating} />
+                <p className="text-gray-600 mt-1 text-sm">{comment.comment}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      
     </div>
   );
 };

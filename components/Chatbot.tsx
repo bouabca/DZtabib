@@ -1,30 +1,26 @@
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import Link from 'next/link';
-import { useState, useEffect, useRef, FormEvent } from 'react';
 
-export default function Chatbot() {
-  const [prompt, setPrompt] = useState<string>(''); 
-  const [conversation, setConversation] = useState<string[]>([]); 
+export default function ResponsiveChatbot() {
+  const [prompt, setPrompt] = useState<string>('');
+  const [conversation, setConversation] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   
-  const chatContainerRef = useRef<HTMLDivElement>(null); // Reference to the chat container
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to the bottom when the conversation updates
+  // Improved scroll to bottom logic
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, []);
-
-  useEffect(() => {
-    
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [conversation]);
 
   const handleTypingEffect = (fullResponse: string) => {
     let currentText = '';
-    const typingSpeed = 5; // Adjust typing speed (ms per character)
+    const typingSpeed = 10;
 
     const interval = setInterval(() => {
       if (currentText.length < fullResponse.length) {
@@ -36,71 +32,82 @@ export default function Chatbot() {
         });
       } else {
         clearInterval(interval);
-        setLoading(false); // Typing complete
+        setLoading(false);
       }
     }, typingSpeed);
   };
 
   const formatAIResponse = (text: string) => {
-    const lines = text.split('\n').filter(Boolean); // Split response by lines and filter out empty lines
+    const lines = text.split('\n').filter(Boolean);
   
     return (
-      <div>
+      <div className=" ">
         {lines.map((line, index) => {
           const isStep = line.startsWith('## Step');
           const isMiniStep = line.startsWith('-## MiniStep');
           const link = line.startsWith('****');
-          const keyValue = `${line}-${index}`; // Ensure uniqueness
+          const keyValue = `${line}-${index}`;
   
           return (
             link ? 
             <Link  
               href={line.replace('****', '')}
               key={keyValue}
-              className={'text-red-400'} 
+              className="text-red-400 text-[22px] hover:underline block" 
             >
               {line.replace('****', '')}
             </Link>  
             :
             <p
               key={keyValue}
-              className={isStep ? 'text-[28px] font-bold mb-2 text-blue-500' : isMiniStep ? 'text-[24px] font-bold mb-2 text-black' : 'text-base mb-1'} 
+              className={`
+                ${isStep ? 'text-2xl font-bold text-blue-500' : 
+                  isMiniStep ? 'text-xl font-bold text-black' : 
+                  'text-base'}
+                transition-all duration-300 ease-in-out
+              `}
             >
-              {isStep ? line.replace('## ', '') : isMiniStep ? line.replace('-## MiniStep', '') : line}
+              {isStep ? line.replace('## ', '') : 
+               isMiniStep ? line.replace('-## MiniStep', '') : 
+               line}
             </p>  
           );
         })}
       </div>
     );
   };
-  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!prompt.trim() || loading) return;
 
     setConversation((prevConversation) => [
       ...prevConversation,
       `User: ${prompt}`,
-      'AI: ...' // Placeholder for typing animation
+      'AI: ...'
     ]);
     setLoading(true);
 
-    const res = await fetch('/pages/api', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt, conversation }),
-    });
+    try {
+      const res = await fetch('/pages/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt, conversation }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.text) {
-      handleTypingEffect(data.text); // Trigger typing effect
-    } else {
+      if (data.text) {
+        handleTypingEffect(data.text);
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    } catch (error) {
       setConversation((prevConversation) => [
-        ...prevConversation,
-        `AI: Error: ${data.error}`,
+        ...prevConversation.slice(0, -1),
+        `AI: Error: ${error instanceof Error ? error.message : 'Network error'}`
       ]);
       setLoading(false);
     }
@@ -109,49 +116,51 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-gray-100 ">
-      <h1 className="text-3xl mt-2 font-bold text-center mb-2">Doc AI</h1>
+    <div className="min-h-screen flex flex-col p-4 sm:p-6 md:p-8">
+      <h1 className="text-3xl font-bold text-center mb-4 text-blue-600">Doc AI</h1>
 
-      <div className="w-full max-w-full  flex flex-col gap-4">
-        <div
-          ref={chatContainerRef} // Attach the ref to the chat container
-          className="flex-grow w-[100%] md:w-[700px] border rounded p-1 mx-auto overflow-y-auto h-[66vh] md:h-[75vh]"
+      <div className="flex-grow flex flex-col w-full max-w-4xl mx-auto">
+        <div 
+          ref={chatContainerRef}
+          className="flex-grow overflow-y-auto bg-white rounded-lg shadow-md mb-4 p-4 space-y-3 max-h-[calc(100vh-250px)] sm:max-h-[calc(100vh-300px)] md:max-h-[calc(100vh-350px)]"
         >
           {conversation.map((msg, index) => (
             <div
               key={index}
-              className={`p-3 mb-2 rounded-md text-[17px] font-medium ${
-                loading && conversation.length - 1 === index
-                  ? 'animate-pulse ellipsis'
-                  : ''
-              } ${
-                msg.startsWith('User')
-                  ? 'bg-blue-100 bg-opacity-20 text-blue-900 text-right self-end'
-                  : 'bg-gray-200 text-gray-900 bg-opacity-40 text-left self-start'
-              }`}
+              className={`
+                p-3 rounded-lg max-w-[90%] break-words
+                ${msg.startsWith('User') 
+                  ? 'bg-blue-100 text-blue-900 self-end ml-auto' 
+                  : 'bg-gray-200 text-gray-900 self-start'}
+                ${loading && conversation.length - 1 === index ? 'animate-pulse' : ''}
+              `}
             >
               {msg.startsWith('AI:') ? formatAIResponse(msg.replace('AI: ', '')) : msg}
             </div>
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex mx-auto w-[100%] p-2 md:p-0  md:w-[700px] items-center gap-4">
+        <form 
+          onSubmit={handleSubmit} 
+          className="flex gap-2 w-full"
+        >
           <input
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Ask me anything..."
-            required
-            className="flex-grow p-3 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            className="flex-grow p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+            disabled={loading}
           />
           <button
             type="submit"
-            disabled={loading}
-            className={`px-6 py-3 font-semibold rounded-lg shadow-md ${
-              loading
-                ? 'bg-gray-400 text-white cursor-not-allowed'
-                : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300'
-            }`}
+            disabled={loading || !prompt.trim()}
+            className={`
+              px-6 py-3 rounded-lg transition-all duration-300
+              ${loading || !prompt.trim() 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300'}
+            `}
           >
             {loading ? 'Sending...' : 'Send'}
           </button>

@@ -22,7 +22,7 @@ interface LocationMapProps {
 const LocationMap: React.FC<LocationMapProps> = ({ 
   latitude, 
   longitude, 
-
+  
   address = 'Location' 
 }) => {
   return (

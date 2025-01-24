@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 
-let RouteProtection = true;
+let RouteProtection = false;
 
 async function getUserType(accessToken: string) {
 

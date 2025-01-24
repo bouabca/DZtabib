@@ -42,7 +42,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         fixed inset-y-0 left-0 transform 
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:relative md:translate-x-0 
-        w-64 md:w-1/5 
+        w-64 md:w-[300px] 
         bg-slate-50 
         transition-transform duration-300 ease-in-out 
         z-40 
@@ -107,7 +107,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </header>
 
         {/* Dynamic Content */}
-        <div className="p-4 md:p-8 overflow-y-auto h-[calc(100vh-5rem)]">
+        <div className="  overflow-y-hidden h-[calc(100vh-5rem)]">
           {children}
         </div>
       </main>
