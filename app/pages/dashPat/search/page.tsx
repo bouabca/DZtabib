@@ -83,7 +83,7 @@ const Search = () => {
   });
 
   return (
-    <div className="px-8">
+    <div className="px-8 h-screen overflow-scroll pb-[100px]">
       <div className="flex flex-col md:flex-row items-center my-4 gap-4 justify-between">
         {/* Search Input */}
         <div className="relative w-full md:w-1/3">
