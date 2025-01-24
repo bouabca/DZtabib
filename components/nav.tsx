@@ -27,7 +27,7 @@ const Nav: React.FC<NavProps> = ({ tabs }) => {
         <div 
           key={tab} 
            className={`
-            cursor-pointer  p-2 px-4 rounded-[15px] transition-all ease-in-out duration-300 text-black 
+            cursor-pointer  p-2 px-4 rounded-[15px] transition-all ease-in-out duration-100 text-black 
               ${pathname === `/pages/dashDoc/${tab}` || pathname === `/pages/dashPat/${tab}` ? '  bg-blue-500 text-white' : 'hover:bg-gray-100'}
             `}
         >
