@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, userAgentFromString } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 
 let RouteProtection = true;
@@ -162,10 +162,10 @@ export async function middleware(request: NextRequest) {
 
       if(userType == 'patient')
         {
-          url.pathname = '/pages/dashDoc' + url.pathname; // Redirect to '/pages/dashDoc/notification'
+          url.pathname = '/pages/dashPat' + url.pathname; // Redirect to '/pages/dashDoc/notification'
         }else{
           if( userType == 'doctor')
-          {     url.pathname = '/pages/dashPat' + url.pathname;  }
+          {     url.pathname = '/pages/dashDoc' + url.pathname;  }
             else{
               url.pathname = '/pages/auth/login ';
             }
@@ -222,15 +222,15 @@ export async function middleware(request: NextRequest) {
     // mobile redirecting
 
   
-    if (url.pathname === '/notification' || url.pathname === '/appointments' || url.pathname === '/historique' || url.pathname === '/profile' || url.pathname === '/search' || url.pathname === '/notification' || url.pathname === '/chat') {
+    if (url.pathname === '/notification' || url.pathname === '/appointments' || url.pathname === '/historique' || url.pathname === '/profile' || url.pathname === '/search'  || url.pathname === '/chat') {
       
-
+       
       if(userType == 'patient')
         {
-          url.pathname = '/pages/dashDoc' + url.pathname; // Redirect to '/pages/dashDoc/notification'
+          url.pathname = '/pages/dashPat' + url.pathname; // Redirect to '/pages/dashDoc/notification'
         }else{
           if( userType == 'doctor')
-          {     url.pathname = '/pages/dashPat' + url.pathname;  }
+          {     url.pathname = '/pages/dashDoc' + url.pathname;  }
             else{
               url.pathname = '/pages/auth/login ';
             }
@@ -265,5 +265,15 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/pages/:path*', '/'],
-} 
+  matcher: [
+    '/',
+    '/notification', 
+    '/appointments', 
+    '/historique', 
+    '/profile', 
+    '/search', 
+    '/chat',
+    
+    '/pages/:path*'
+  ]
+}

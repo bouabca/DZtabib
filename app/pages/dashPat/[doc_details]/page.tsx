@@ -11,6 +11,7 @@ import { FaStar } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Image from 'next/image';
 import { useParams } from "next/navigation";
+import LocationMap from "@/components/patientDash/map";
 
 interface DoctorDetails {
   image: string;
@@ -146,8 +147,18 @@ export default function Page() {
               <Image src={docDetails.certificate} alt="certificate" className="bg-red-200 p-8" width={800} height={1200} />
             )}
           </div>
+
+         
+
+
         </>
       )}
+
+        <LocationMap 
+          latitude={40.7128} 
+          longitude={-74.0060} 
+          address="New York City" 
+        />
     </div>
   );
 }

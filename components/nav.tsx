@@ -1,43 +1,34 @@
 "use client";
-import React from 'react';
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface NavProps {
-  tabs?: string[]; // `tabs` is optional now
+  tabs: string[];
 }
 
-const Nav: React.FC<NavProps> = ({ tabs = [] }) => { // Default value for tabs is an empty array
+const Nav: React.FC<NavProps> = ({ tabs }) => {
   const pathname = usePathname();
 
-  // Get the base path (e.g., /pages/dashPat)
-  const basePath = pathname.split('/').slice(0, 3).join('/');
-
   return (
-    <>
-      {tabs.map((tab) => {
-        const isActive = pathname.includes(tab.toLowerCase());
-
-        return (
+    <div className="p-4 mt-auto  space-y-2">
+      {tabs.map((tab) => (
+        <div 
+          key={tab} 
+         className="cursor-pointer hover:bg-gray-100 p-2 rounded"
+        >
           <Link 
-            key={tab} 
-            href={`${basePath}/${tab.toLowerCase()}`} // Combining base path with tab
-            passHref
-            className='w-[90%] hidden md:block'
+            href={`/${tab}`}
+            className={`
+              block w-full 
+              ${pathname === `/${tab}` ? 'text-blue-500' : ''}
+            `}
           >
-            <div
-              className={`rounded-[12px] p-[7px] px-[25px] w-[320px] md:w-[100%] h-auto cursor-pointer transition-all duration-300 ${
-                isActive
-                ? "bg-blue-500 text-white scale-105"
-                : " text-black hover:scale-105 hover:bg-blue-100"
-              }`}
-            >
-              {tab}
-            </div>
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </Link>
-        );
-      })}
-    </>
+        </div>
+      ))}
+    </div>
   );
 };
 
