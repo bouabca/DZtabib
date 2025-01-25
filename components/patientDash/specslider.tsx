@@ -37,14 +37,15 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
 
   useEffect(() => {
     if (windowWidth !== 0) {
-      console.log(windowWidth)
-      const numItemsInSpecialities = Math.floor(windowWidth / 212);
-      setDropdownSpecialities(specialities.slice(numItemsInSpecialities));
-      setspecialities(specialities.filter(spec => !dropdownSpecialities.includes(spec)))
-      console.log("spec :",spec)
-      console.log("specialities :",specialities)
-      console.log("drop down :",dropdownSpecialities)
-
+      const numItemsInSpecialities = windowWidth > 1300 
+        ? Math.floor(windowWidth / 212)
+        : Math.floor(windowWidth / 242);
+      
+      const visibleSpecialities = specialities.slice(0, numItemsInSpecialities);
+      const dropdownItems = specialities.slice(numItemsInSpecialities);
+      
+      setspecialities(visibleSpecialities);
+      setDropdownSpecialities(dropdownItems);
     }
   }, [windowWidth]);
 
@@ -69,7 +70,7 @@ const SpecialitySelector: React.FC<SpecialitySelectorProps> = ({ onSpecialityCha
     <div className="relative w-full bg-white p-3 py-2 my-5  rounded-full  flex flex-col items-center shadow-lg">
       <div className="flex w-full items-center text-lg font-medium">
         <div className="overflow-hidden  flex   flex-row w-full gap-14 md:gap-20 lg:gap-9">
-          {spec.slice(0, Math.floor(windowWidth / 120)).map((speciality, index) => (
+          {spec.map((speciality, index) => (
             <span
               key={index}
               className={`cursor-pointer rounded-full h-[45px] relative z-[3] flex justify-center items-center w-[120px] px-2 transition-colors duration-200 ${
