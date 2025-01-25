@@ -6,12 +6,12 @@ const Dashhead = () => {
     return (  
         <>
     <div className=" text-[24px] hidden lg:flex flex-row justify-between  px-8  items-center mx-auto bg-slate-200 py-4 ">
-          <div className="w-[150px] text-start border-solid border-2 border-black">Date</div>
-          <div className="w-[200px] text-start border-solid border-2 border-black">Patient</div>
-          <div className="w-[180px] text-start border-solid border-2 border-black">apoitment type</div>
-          <div className="w-[250px] text-start border-solid border-2 border-black">Numero</div>
-          <div className="w-[250px] text-start border-solid border-2 border-black">Gmail</div>
-          <div className="w-[200px] text-start border-solid border-2 border-black">Start Meet</div>
+          <div className="w-[150px] text-start ">Date</div>
+          <div className="w-[200px] text-start ">Patient</div>
+          <div className="w-[180px] text-start ">apoitment type</div>
+          <div className="w-[250px] text-start ">Numero</div>
+          <div className="w-[250px] text-start ">Gmail</div>
+          <div className="w-[200px] text-start ">Start Meet</div>
         </div>
     
         </>

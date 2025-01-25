@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface LoginInputFieldsProps {
   formData: {
-    username: string;
+    email: string;
     password: string;
   };
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -10,56 +10,58 @@ interface LoginInputFieldsProps {
 
 const LoginInputFields: React.FC<LoginInputFieldsProps> = ({ formData, handleInputChange }) => {
   const [errors, setErrors] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-  const validate = (username: string, value: string) => {
+  const validate = (field: string, value: string) => {
     let error = "";
 
-    if (username === "name") {
+    if (field === "email") {
       if (!value) {
-        error = "Name is required";
-      } else if (value.length < 3) {
-        error = "Name must be at least 3 characters long";
+        error = "Email is required";
+      } else if (!/\S+@\S+\.\S+/.test(value)) {
+        error = "Email is invalid";
       }
     }
 
-    if (username === "password") {
+    if (field === "password") {
       if (!value) {
         error = "Password is required";
       } else if (value.length < 8) {
         error = "Password must be at least 8 characters long";
+      } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(value)) {
+        error = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
       }
     }
 
-    setErrors((prevErrors) => ({ ...prevErrors, [username]: error }));
+    setErrors((prevErrors) => ({ ...prevErrors, [field]: error }));
   };
 
   const handleInputChangeWithValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;  // 'name' is typically used for form elements
+    const { name, value } = e.target;
     handleInputChange(e);
-    validate(name, value);  // Pass 'name' instead of 'username'
+    validate(name, value);
   };
-  
+
   return (
     <div className="space-y-4">
-      {/* Name Field */}
+      {/* Email Field */}
       <div>
-        <label htmlFor="username" className="block text-[20px] text-gray-700">username</label>
+        <label htmlFor="email" className="block text-[20px] text-gray-700">Email</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
           onChange={handleInputChangeWithValidation}
-          placeholder="Enter your name"
+          placeholder="Enter your email"
           className={`w-full px-4 py-2 h-[50px] text-[20px] border rounded-md focus:outline-none focus:ring-2 ${
-            errors.username ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
+            errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
           }`}
           required
         />
-        {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
 
       {/* Password Field */}

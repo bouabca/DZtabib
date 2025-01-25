@@ -8,7 +8,7 @@ import DropdownImageMenu from "./Hamb"
 
 
 const Header = () => {
-  const links = ["Dashboard", "services", "About", "signup", "login"]; // Menu links
+  const links = ["Dashboard", "Dashboard-Doc", "signup", "login"]; // Menu links
   const imageSrc = "/svg/hamp.svg"; // Path to your menu image
   const altText = "Menu Icon";
 
@@ -39,11 +39,11 @@ const Header = () => {
         {/* Desktop Navigation */}
         <div className="hidden mr-auto lg:block">
         <ul className="menu-list  ">
-          {["Dashboard", "services", "about"].map((menuItem, index) => (
+          {["Dashboard", "Dashboard-Doc"].map((menuItem, index) => (
             <li key={index} className="menu-item">
-              <a href={`pages/${menuItem}`} className="menu-link">
+              <Link href={`pages/${menuItem}`} className="menu-link">
                 {menuItem}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

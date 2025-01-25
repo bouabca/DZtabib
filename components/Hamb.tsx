@@ -31,9 +31,9 @@ const DropdownImageMenu: React.FC<DropdownImageMenuProps> = ({ links, imageSrc, 
           {links.map((linkName, index) => (
             <li
               key={index}
-              className="w-full h-[65px] border-b  border-t flex px-12 cursor-pointer border-gray-300 last:border-none hover:text-[#1376F8] text-black  text-xl hover:text-2xl hover:bg-gray-100  transition-all duration-300"
+              className="w-full h-[65px] border-b  border-t flex px-12 cursor-pointer border-gray-300 last:border-none focus:text-[#1376F8] text-black  text-xl hover:text-2xl hover:bg-gray-100  transition-all duration-300"
             >
-              <Link onClick={toggleMenu} href={`/${linkName}`} >
+              <Link onClick={toggleMenu} href={`pages/${linkName}`} >
                 <div className="  text-start  py-4">
                   {linkName}
                 </div>

@@ -3,37 +3,37 @@ import React, { useState } from 'react';
 import RoleSelection from '../../../../components/authpageComp/RoleSelection';
 import InputFields from '../../../../components/authpageComp/InputFields';
 import Buttons from '../../../../components/authpageComp/Buttons';
-
 import AnimatedLoader from '../../../../components/loading';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface FormData {
-  firstName: string;
-  lastName: string;
+  name: string;
+  full_name: string;
   email: string;
-  birthDate: string;
   password: string;
   confirmPassword: string;
   userType: 'patient' | 'doctor';
-  speciality: string;
-  diplomaCode: string;
+  location?: string;
+  diploma_code?: string;
+  phone?: string;
 }
 
 export default function Signup() {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
+    name: '',
+    full_name: '',
     email: '',
-    birthDate: '',
     password: '',
     confirmPassword: '',
     userType: 'patient',
-    speciality: '',
-    diplomaCode: '',
+    location: '',
+    diploma_code: '',
+    phone: '',
   });
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -46,19 +46,28 @@ export default function Signup() {
   const handleUserTypeChange = (type: string) => {
     if (type === 'patient' || type === 'doctor') {
       setFormData(prev => ({ ...prev, userType: type }));
+      // Clear doctor-specific fields if switching to patient
       if (type === 'patient') {
-        setFormData(prev => ({ ...prev, speciality: '', diplomaCode: '' }));
+        setFormData(prev => ({ ...prev, location: '', diploma_code: '' }));
+      }
+      // Clear patient-specific fields if switching to doctor
+      if (type === 'doctor') {
+        setFormData(prev => ({ ...prev, phone: '' }));
       }
     }
   };
 
   const validateForm = () => {
-    const requiredFields = ['firstName', 'lastName', 'email', 'birthDate', 'password', 'confirmPassword'];
-    const doctorFields = ['speciality', 'diplomaCode'];
+    const requiredFields = ['name', 'full_name', 'email', 'password', 'confirmPassword'];
+    const doctorFields = ['location', 'diploma_code'];
+    const patientFields = ['phone'];
 
+    // Check for empty required fields
     const emptyFields = requiredFields.filter(field => !formData[field as keyof FormData]);
     if (formData.userType === 'doctor') {
       emptyFields.push(...doctorFields.filter(field => !formData[field as keyof FormData]));
+    } else if (formData.userType === 'patient') {
+      emptyFields.push(...patientFields.filter(field => !formData[field as keyof FormData]));
     }
 
     if (emptyFields.length > 0) {
@@ -66,139 +75,91 @@ export default function Signup() {
       return false;
     }
 
+    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError('Please enter a valid email address');
       return false;
     }
 
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long');
+    // Validate password complexity
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      setError('Password must be at least 8 characters long and include 1 uppercase, 1 lowercase, 1 number, and 1 special character');
       return false;
     }
 
+    // Confirm password match
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return false;
     }
 
-    const birthDate = new Date(formData.birthDate);
-    const today = new Date();
-    if (birthDate >= today) {
-      setError('Birth date must be in the past');
-      return false;
-    }
-
     return true;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!validateForm()) {
       return;
     }
-
+  
     setLoading(true);
     setError('');
-
+  
     try {
-      const userResponse = await fetch('https://dztabib.onrender.com/auth/users/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          username: formData.email,
-          password: formData.password,
+      // Determine the registration endpoint based on user type
+      const endpoint =
+        formData.userType === 'doctor'
+          ? 'https://dz-tabib-backend.onrender.com/api/auth/doctor/register'
+          : 'https://dz-tabib-backend.onrender.com/api/auth/patient/register';
+  
+      // Prepare the payload
+      const payload = {
+        name: formData.name,
+        full_name: formData.full_name,
+        email: formData.email,
+        password: formData.password,
+        ...(formData.userType === 'doctor' && {
+          location: formData.location,
+          diploma_code: formData.diploma_code,
         }),
-      });
-
-      if (!userResponse.ok) {
-        const errorData = await userResponse.json();
-        throw new Error(errorData.detail || 'Failed to create user account');
-      }
-
-      const userData = await userResponse.json();
-
-      const profileEndpoint = formData.userType === 'doctor'
-        ? 'https://dztabib.onrender.com/medical/doctor/'
-        : 'https://dztabib.onrender.com/medical/patient/';
-
-      const profileData = formData.userType === 'doctor'
-        ? {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            date_of_birth: formData.birthDate,
-            speciality: formData.speciality,
-            diploma_code: formData.diplomaCode,
-          }
-        : {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            birth_date: formData.birthDate,
-          };
-
-      const profileResponse = await fetch(profileEndpoint, {
+        ...(formData.userType === 'patient' && {
+          phone: formData.phone,
+        }),
+      };
+  
+      // Send the registration request
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `JWT ${userData.access}`,
         },
-        body: JSON.stringify(profileData),
+        body: JSON.stringify(payload),
       });
-
-      if (!profileResponse.ok) {
-        const errorData = await profileResponse.json();
-        throw new Error(errorData.detail || `Failed to create ${formData.userType} profile`);
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed. Please try again.');
       }
-      
-         console.log(userData.access)
-              
-         console.log(userData.refresh)
-
-         const cookieResponse = await fetch('/pages/auth/cookie', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            accessToken: userData.access,
-            refreshToken: userData.refresh,
-          }),
-        });
-
-        // Check if the cookie request was successful
-        if (cookieResponse.ok) {
-          console.log("Tokens saved successfully.");
-          // Redirect to the dashboard
-          router.push('/pages/dashDoc');
-        } else {
-          setError('Failed to save tokens. Please try again later.');
-        }
-
-
-      console.log('User successfully registered as', formData.userType);
-      if (formData.userType === 'doctor') {
-        
-        router.push('/pages/dashDoc'); // Navigate to the doctor's dashboard
-      } else if (formData.userType === 'patient') {
-        
-        router.push('/pages/dashPat'); // Navigate to the patient's dashboard
-      } else {
-        console.error('Invalid user role'); // Handle unexpected roles
-      }
-      
-      
+  
+      const data = await response.json();
+      console.log('Registration successful:', data);
+  
+      // Redirect based on user type
+      router.push('/pages/auth/login');
+    
     } catch (error) {
-      console.error('Error during signup:', error);
-      setError(error instanceof Error ? error.message : 'An error occurred during signup. Please try again.');
+      console.error('Error during registration:', error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'An error occurred during registration. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="mx-auto w-full flex flex-col justify-center items-center py-10 px-4">
       {loading ? (
