@@ -16,8 +16,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next(); // Skip middleware for API routes
   }
 
-
-
+//comment
+//new comments more
   // const token = request.cookies.get('token')
 
   // if (token) {
