@@ -138,7 +138,7 @@ const FileUpload = ({
       onDrop={handleDrop}
     >
       {!imagePreview ? (
-        <div className="w-full h-full flex flex-col justify-center items-center bg-white">
+        <div className="w-full h-full flex flex-col justify-center items-center ">
           <input
             id="certificate"
             type="file"
@@ -262,7 +262,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="h-screen overflow-scroll">
-      <div className="w-full flex flex-col bg-[#18A0FB]">
+      <div className="w-full flex flex-col  ">
         {/* Header Section */}
         <div className="flex flex-col items-center py-8">
           <div className="flex gap-8 mb-8">
@@ -271,7 +271,7 @@ const Profile: React.FC = () => {
               ["crown", "Experience"],
               ["heart", "Rating"],
             ].map(([icon, label]) => (
-              <div key={icon as string} className="flex flex-col items-center text-white">
+              <div key={icon as string} className="flex flex-col items-center text-blue-500">
                 <Image
                   src={`/svg/${icon}.svg`}
                   width={80}
@@ -299,20 +299,21 @@ const Profile: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-4 justify-center p-4">
           <Link
             href="/profilesettings"
-            className="bg-white text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
+            className=" text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
           >
             Profile Settings
           </Link>
+
           <button
             onClick={handleSubmit}
-            className="bg-white text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
+            className=" text-[#18A0FB] font-semibold py-2 px-8 rounded-full border border-blue-500 hover:bg-blue-50 transition-colors text-center"
           >
             Save Changes
           </button>
         </div>
 
         {/* Main Content Section */}
-        <div className="flex-1 bg-[#F5F5F6] rounded-t-3xl p-8 flex flex-col lg:flex-row gap-8">
+        <div className="flex-1  rounded-t-3xl p-8 flex flex-col lg:flex-row gap-8">
           {/* Location Selector and Map */}
           <div className="lg:w-1/3 flex flex-col gap-4">
             <div className="space-y-2">
@@ -320,7 +321,7 @@ const Profile: React.FC = () => {
               <select
                 value={location}
                 onChange={handleLocationChange}
-                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3  bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 {LOCATIONS.map((loc) => (
                   <option key={loc.name} value={loc.name}>
@@ -331,7 +332,7 @@ const Profile: React.FC = () => {
             </div>
 
             {coords && markerIcon && (
-              <div className="h-96 bg-white rounded-lg overflow-hidden shadow-lg">
+              <div className="h-96  rounded-lg overflow-hidden shadow-lg">
                 <MapContainer
                   center={[coords.lat, coords.lng]}
                   zoom={12}
@@ -365,16 +366,16 @@ const Profile: React.FC = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
-                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3  border rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block font-semibold text-gray-700">Specialty</label>
+              <label className="block  font-semibold text-gray-700">Specialty</label>
               <select
                 value={specialty}
                 onChange={(e) => setSpecialty(e.target.value)}
-                className="w-full p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3  bg-white border rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 {SPECIALTIES.map((spec) => (
                   <option key={spec} value={spec}>
@@ -390,7 +391,7 @@ const Profile: React.FC = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="About the doctor"
-                className="w-full h-60 p-3 bg-white border rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
+                className="w-full h-60 p-3  border rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -402,11 +403,11 @@ const Profile: React.FC = () => {
         </div>
 
         {/* Comments Section */}
-        <div className="bg-[#F5F5F6] mb-[80px] p-8 space-y-6">
+        <div className=" mb-[80px] p-8 space-y-6">
           {COMMENTS.map((comment) => (
             <div
               key={comment.id}
-              className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className="flex items-start gap-4 p-4  rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               <Image
                 src={comment.profilePic}

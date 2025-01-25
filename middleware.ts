@@ -16,33 +16,33 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next(); // Skip middleware for API routes
   }
 
-//comment
-//new comments more
-  // const token = request.cookies.get('token')
 
-  // if (token) {
-  //   try {
-  //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const token = request.cookies.get('token')
+  // console.log( request.cookies.getall())
+  console.log(token)
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       
-  //     // Access token contents
-  //     console.log({
-  //       userId: decoded.id,
-  //       email: decoded.email,
-  //       name: decoded.name,
-  //       role: decoded.role
-  //     });
+      // Access token contents
+      console.log({
+        userId: decoded.id,
+        email: decoded.email,
+        name: decoded.name,
+        role: decoded.role
+      });
 
-  //     // You can use these decoded values for route protection
-  //     if (decoded.role === 'patient') {
-  //       // Patient-specific logic
-  //     }
+      // You can use these decoded values for route protection
+      if (decoded.role === 'patient') {
+        // Patient-specific logic
+      }
 
-  //   } catch (error) {
-  //     // Token invalid or expired
-  //     console.error('Token verification failed');
-  //     // Redirect to login or handle invalid token
-  //   }
-  // }
+    } catch (error) {
+      // Token invalid or expired
+      console.error('Token verification failed');
+      // Redirect to login or handle invalid token
+    }
+  }
  
   
   
