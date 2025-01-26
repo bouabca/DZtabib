@@ -1,6 +1,5 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { SessionProvider } from "next-auth/react";
+
 
 export const metadata = {
   title: "DZ Tabib ",
@@ -14,24 +13,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Consider adding preconnect for external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
       </head>
       
       <body className="min-h-screen bg-background font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SessionProvider>
+   
             <main className="relative flex flex-col min-h-screen">
               {children}
             </main>
-          </SessionProvider>
-        </ThemeProvider>
+   
       </body>
     </html>
   );
