@@ -17,7 +17,12 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  // const token = request.cookies.get('token')
+  const allCookies = request.cookies.getAll()
+
+  // Log all cookies (remove in production)
+  console.log('All Cookies:', allCookies)
+
+  
   // // console.log( request.cookies.getall())
   // console.log(token)
   // if (token) {

@@ -37,7 +37,7 @@ export default function Login() {
   
     try {
       // Send login request to the backend
-      const response = await fetch('https://dz-tabib-backend.onrender.com/api/auth/login', {
+      const response = await fetch('https://d-ztabib.onrender.com/api/auth/login', {
         method: 'POST',
         credentials: 'include', // Add this line
         headers: {
