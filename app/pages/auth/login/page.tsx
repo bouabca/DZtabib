@@ -39,7 +39,7 @@ export default function Login() {
       // Send login request to the backend
       const response = await fetch('https://dz-tabib-backend.vercel.app/login', {
         method: 'POST',
-        credentials: 'include', // Add this line
+     
         headers: {
           'Content-Type': 'application/json',
         },
