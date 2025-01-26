@@ -26,7 +26,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "types": ["geojson"] // Add this line
   },
   "include": [
     "next-env.d.ts",
