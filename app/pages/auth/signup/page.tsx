@@ -111,8 +111,8 @@ export default function Signup() {
       // Determine the registration endpoint based on user type
       const endpoint =
         formData.userType === 'doctor'
-          ? 'https://dz-tabib-backend.onrender.com/api/auth/doctor/register'
-          : 'https://dz-tabib-backend.onrender.com/api/auth/patient/register';
+          ? 'dz-tabib-backend.vercel.app/api/auth/doctor/register'
+          : 'dz-tabib-backend.vercel.app/api/auth/patient/register';
   
       // Prepare the payload
       const payload = {

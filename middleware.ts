@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  const allCookies = request.cookies.getAll()
+   const allCookies = request.cookies.getAll()
 
   // Log all cookies (remove in production)
   console.log('All Cookies:', allCookies)
