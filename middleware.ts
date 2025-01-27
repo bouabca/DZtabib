@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
+import { cookies } from 'next/headers';
 
  
 
@@ -20,9 +20,11 @@ export async function middleware(request: NextRequest) {
 
   // const myCookie = (await cookieStore).get('ramix');
 
-  const cookies = request.cookies.get('ramix');
+  // const cookies = request.cookies.get('ramix');
+  const cookieStore = (await cookies()).getAll();
+  console.log(cookieStore)
 
-  console.log("this is the cookie ========",cookies)
+  // console.log("this is the cookie ========",cookies)
 
   
   // // console.log( request.cookies.getall())
