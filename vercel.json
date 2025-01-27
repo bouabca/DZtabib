@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://d-ztabib-front.vercel.app/:path*"
+      },
+      {
+        "source": "/:path*", 
+        "destination": "/:path*"
+      }
+    ]
+  }
+  
