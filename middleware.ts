@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { cookies } from 'next/headers';
+
  
 
 
@@ -10,17 +10,19 @@ export async function middleware(request: NextRequest) {
 
 
   const url = request.nextUrl.clone();
-
+  
 
   if (url.pathname.startsWith('/pages/api')) {
     return NextResponse.next(); // Skip middleware for API routes
   }
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
 
 
-  const myCookie = (await cookieStore).get('ramix');
+  // const myCookie = (await cookieStore).get('ramix');
 
-  console.log("this is the cookie ========",myCookie)
+  const cookies = request.cookies.get('ramix');
+
+  console.log("this is the cookie ========",cookies)
 
   
   // // console.log( request.cookies.getall())
@@ -51,55 +53,55 @@ export async function middleware(request: NextRequest) {
  
   
   
-  if (url.pathname === '/pages/login' || url.pathname === '/pages/signup') {
-    if(url.pathname === '/pages/login')
-    { url.pathname = '/pages/auth/login';}
-      else{
-        url.pathname = '/pages/auth/signup';
-    }
-    // Redirect to '/auth/login'
-    return NextResponse.redirect(url);
-  }
+  // if (url.pathname === '/pages/login' || url.pathname === '/pages/signup') {
+  //   if(url.pathname === '/pages/login')
+  //   { url.pathname = '/pages/auth/login';}
+  //     else{
+  //       url.pathname = '/pages/auth/signup';
+  //   }
+  //   // Redirect to '/auth/login'
+  //   return NextResponse.redirect(url);
+  // }
 
 
 
 
-  const userType = 'patient'
+  // const userType = 'patient'
 
-    if (url.pathname === '/pages/Dashboard' || url.pathname === '/Dashboard' || url.pathname == "/pages/Dashboard-Doc") {
-      if(url.pathname == "/pages/Dashboard-Doc")
-      {
-        url.pathname = '/pages/dashDoc/notification';
-      }
-      else
-      {
-        if(userType == 'patient')
-          {
-            url.pathname = '/pages/dashPat/search';
-          }else{
-            if( userType == 'doctor')
-            { url.pathname = '/pages/dashDoc/notification';}
-              else{
-                url.pathname = '/pages/auth/login ';
-              }
-          }
-      }
+  //   if (url.pathname === '/pages/Dashboard' || url.pathname === '/Dashboard' || url.pathname == "/pages/Dashboard-Doc") {
+  //     if(url.pathname == "/pages/Dashboard-Doc")
+  //     {
+  //       url.pathname = '/pages/dashDoc/notification';
+  //     }
+  //     else
+  //     {
+  //       if(userType == 'patient')
+  //         {
+  //           url.pathname = '/pages/dashPat/search';
+  //         }else{
+  //           if( userType == 'doctor')
+  //           { url.pathname = '/pages/dashDoc/notification';}
+  //             else{
+  //               url.pathname = '/pages/auth/login ';
+  //             }
+  //         }
+  //     }
   
   
-      return NextResponse.redirect(url);
-    }
+  //     return NextResponse.redirect(url);
+  //   }
 
 
 
-    if (url.pathname === '/pages/dashDoc' ) {
-      url.pathname = '/pages/dashDoc/notification'; // Redirect to '/dash/notification'
-      return NextResponse.redirect(url);
-    }
+  //   if (url.pathname === '/pages/dashDoc' ) {
+  //     url.pathname = '/pages/dashDoc/notification'; // Redirect to '/dash/notification'
+  //     return NextResponse.redirect(url);
+  //   }
 
-    if (url.pathname === '/pages/dashPat') {
-      url.pathname = '/pages/dashPat/search'; // Redirect to '/dash/search'
-      return NextResponse.redirect(url);
-    }
+  //   if (url.pathname === '/pages/dashPat') {
+  //     url.pathname = '/pages/dashPat/search'; // Redirect to '/dash/search'
+  //     return NextResponse.redirect(url);
+  //   }
 
 
   
@@ -107,7 +109,7 @@ export async function middleware(request: NextRequest) {
 
 
 
-  // console.timeEnd('middlewareExecutionTime');
+  // // console.timeEnd('middlewareExecutionTime');
 
 
   return NextResponse.next(); // Allow other routes to proceed as normal
@@ -117,7 +119,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+
     '/',
+    '/test',
     '/notification', 
     '/appointments', 
     '/historique', 
