@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
+import { cookies } from 'next/headers';
  
 
 
@@ -15,12 +15,12 @@ export async function middleware(request: NextRequest) {
   if (url.pathname.startsWith('/pages/api')) {
     return NextResponse.next(); // Skip middleware for API routes
   }
+  const cookieStore = cookies();
 
 
-   const allCookies = request.cookies.getAll()
+  const myCookie = (await cookieStore).get('ramix');
 
-  // Log all cookies (remove in production)
-  console.log('All Cookies:', allCookies)
+  console.log(myCookie)
 
   
   // // console.log( request.cookies.getall())
