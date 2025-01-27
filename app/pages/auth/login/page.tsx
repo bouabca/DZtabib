@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 import React, { useState } from 'react';
 import LoginInputFields from '../../../../components/authpageComp/logininputFields';
 import Buttons from '../../../../components/authpageComp/loginButton';
@@ -37,42 +38,48 @@ export default function Login() {
   
     try {
       // Send login request to the backend
-      const response = await fetch('https://dz-tabib-backend.vercel.app/login', {
-        method: 'POST',
-     
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        'https://dz-tabib-backend.vercel.app/login',
+        {
           email,
           password,
           userType,
-        }),
-      });
-  
-      const data = await response.json();
-  
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // Enables sending cookies with the request
+        }
+      );
+    
+      const data = response.data;
+    
       // Handle response
-      if (response.ok) {
-          console.log(data)
-
-          router.push('/pages/dashDoc');
+      if (response.status === 200) { // 200 indicates success
+        console.log(data);
+    
+        router.push('/pages/dashDoc');
+        // Uncomment and use based on userType
         // if (userType === 'doctor') {
         //   router.push('/pages/dashDoc');
         // } else {
         //   router.push('/pages/dashPatient');
         // }
       } else {
-        // If login fails, display error message
+        // This block is unlikely to run since Axios throws for non-2xx statuses
         setError(data.message || 'Invalid email or password.');
       }
     } catch (error) {
       // Handle network or unexpected errors
       console.error('Error:', error);
-      setError('An error occurred. Please try again later.');
+    
+      // Display appropriate error message
+      setError(error as string);
     } finally {
       setLoading(false); // Reset loading state
     }
+    
   };
 
 
