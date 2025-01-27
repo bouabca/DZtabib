@@ -21,9 +21,28 @@ export async function middleware(request: NextRequest) {
   // const myCookie = (await cookieStore).get('ramix');
 
   // const cookies = request.cookies.get('ramix');
-  const cookieStore = (await cookies()).getAll();
-  console.log(cookieStore)
 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   // console.log("this is the cookie ========",cookies)
 
   
@@ -55,43 +74,43 @@ export async function middleware(request: NextRequest) {
  
   
   
-  // if (url.pathname === '/pages/login' || url.pathname === '/pages/signup') {
-  //   if(url.pathname === '/pages/login')
-  //   { url.pathname = '/pages/auth/login';}
-  //     else{
-  //       url.pathname = '/pages/auth/signup';
-  //   }
-  //   // Redirect to '/auth/login'
-  //   return NextResponse.redirect(url);
-  // }
+  if (url.pathname === '/pages/login' || url.pathname === '/pages/signup') {
+    if(url.pathname === '/pages/login')
+    { url.pathname = '/pages/auth/login';}
+      else{
+        url.pathname = '/pages/auth/signup';
+    }
+    // Redirect to '/auth/login'
+    return NextResponse.redirect(url);
+  }
 
 
 
 
-  // const userType = 'patient'
+  const userType = 'patient'
 
-  //   if (url.pathname === '/pages/Dashboard' || url.pathname === '/Dashboard' || url.pathname == "/pages/Dashboard-Doc") {
-  //     if(url.pathname == "/pages/Dashboard-Doc")
-  //     {
-  //       url.pathname = '/pages/dashDoc/notification';
-  //     }
-  //     else
-  //     {
-  //       if(userType == 'patient')
-  //         {
-  //           url.pathname = '/pages/dashPat/search';
-  //         }else{
-  //           if( userType == 'doctor')
-  //           { url.pathname = '/pages/dashDoc/notification';}
-  //             else{
-  //               url.pathname = '/pages/auth/login ';
-  //             }
-  //         }
-  //     }
+    if (url.pathname === '/pages/Dashboard' || url.pathname === '/Dashboard' || url.pathname == "/pages/Dashboard-Doc") {
+      if(url.pathname == "/pages/Dashboard-Doc")
+      {
+        url.pathname = '/pages/dashDoc/notification';
+      }
+      else
+      {
+        if(userType == 'patient')
+          {
+            url.pathname = '/pages/dashPat/search';
+          }else{
+            if( userType == 'doctor')
+            { url.pathname = '/pages/dashDoc/notification';}
+              else{
+                url.pathname = '/pages/auth/login ';
+              }
+          }
+      }
   
   
-  //     return NextResponse.redirect(url);
-  //   }
+      return NextResponse.redirect(url);
+    }
 
 
 
