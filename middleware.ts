@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
   const myCookie = (await cookieStore).get('ramix');
 
-  console.log(myCookie)
+  console.log("this is the cookie ========",myCookie)
 
   
   // // console.log( request.cookies.getall())
