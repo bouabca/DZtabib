@@ -39,7 +39,7 @@ export default function Login() {
     try {
       // Send login request to the backend
       const response = await axios.post(
-        'https://dz-tabib-backend.vercel.app/back/login',
+        'https://dz-tabib-backend.onrender.com/login',
         {
           email,
           password,
