@@ -1,5 +1,5 @@
 'use client';
-
+import axios from 'axios';
 import React, { useState } from 'react';
 import LoginInputFields from '../../../../components/authpageComp/logininputFields';
 import Buttons from '../../../../components/authpageComp/loginButton';
@@ -37,35 +37,48 @@ export default function Login() {
     setLoading(true); // Set loading state
   
     try {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://dz-tabib-backend.vercel.app/login', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.withCredentials = true; // Enables sending cookies
-    
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const data = JSON.parse(xhr.responseText);
-          console.log(data);
-          router.push('/pages/dashDoc');
-        } else {
-          const data = JSON.parse(xhr.responseText);
-          setError(data.message || 'Invalid email or password.');
+      // Send login request to the backend
+      const response = await axios.post(
+        'https://dz-tabib-backend.vercel.app/login',
+        {
+          email,
+          password,
+          userType,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // Enables sending cookies with the request
         }
-      };
+      );
     
-      xhr.onerror = () => {
-        console.error('Network error');
-        setError('An unexpected error occurred.');
-      };
+      const data = response.data;
     
-      xhr.send(JSON.stringify({ email, password, userType }));
+      // Handle response
+      if (response.status === 200) { // 200 indicates success
+        console.log(data);
+    
+        router.push('/pages/dashDoc');
+        // Uncomment and use based on userType
+        // if (userType === 'doctor') {
+        //   router.push('/pages/dashDoc');
+        // } else {
+        //   router.push('/pages/dashPatient');
+        // }
+      } else {
+        // This block is unlikely to run since Axios throws for non-2xx statuses
+        setError(data.message || 'Invalid email or password.');
+      }
     } catch (error) {
+      // Handle network or unexpected errors
       console.error('Error:', error);
-      setError('An unexpected error occurred.');
-    } finally {
-      setLoading(false);
-    }
     
+      // Display appropriate error message
+      setError(error as string);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
     
   };
 
