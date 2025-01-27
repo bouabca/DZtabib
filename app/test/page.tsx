@@ -3,7 +3,7 @@ import axios from "axios";
 
 const fetchDataWithCredentials = async (): Promise<any> => {
     try {
-      const response = await axios.get('https://dz-tabib-backend.onrender.com', {
+      const response = await axios.get('https://dz-tabib-backend.onrender.com/cookie', {
         withCredentials: true, // Include credentials (cookies, authentication headers)
         headers: {
           'Content-Type': 'application/json',
