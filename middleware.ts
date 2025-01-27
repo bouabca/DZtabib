@@ -117,18 +117,18 @@ export async function middleware(request: NextRequest) {
 
 }
 
-export const config = {
-  matcher: [
+// export const config = {
+//   matcher: [
 
-    '/',
-    '/test',
-    '/notification', 
-    '/appointments', 
-    '/historique', 
-    '/profile', 
-    '/search', 
-    '/chat',
+//     '/',
+//     '/test',
+//     '/notification', 
+//     '/appointments', 
+//     '/historique', 
+//     '/profile', 
+//     '/search', 
+//     '/chat',
     
-    '/pages/:path*'
-  ]
-}
+//     '/pages/:path*'
+//   ]
+// }
