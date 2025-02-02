@@ -86,6 +86,7 @@ export async function middleware(request: NextRequest) {
 
 
 
+  
 
   const userType = 'patient'
 
@@ -114,10 +115,10 @@ export async function middleware(request: NextRequest) {
 
 
 
-  //   if (url.pathname === '/pages/dashDoc' ) {
-  //     url.pathname = '/pages/dashDoc/notification'; // Redirect to '/dash/notification'
-  //     return NextResponse.redirect(url);
-  //   }
+    if (url.pathname === '/profilesettings' ) {
+      url.pathname = '/pages/dashDoc/profilesettings'; // Redirect to '/dash/notification'
+      return NextResponse.redirect(url);
+    }
 
   //   if (url.pathname === '/pages/dashPat') {
   //     url.pathname = '/pages/dashPat/search'; // Redirect to '/dash/search'
